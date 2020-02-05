@@ -1,6 +1,6 @@
 package Entities;
 
-import MyCollection.List.ArrayList;
+import MyCollection.List.ArrayUnorderedList;
 
 /**
  * <h3>
@@ -17,14 +17,14 @@ public class JSONFile {
     private String name;
 
     /**
-     * int reference to the initial life points of the user
+     * long reference to the initial life points of the user
      */
-    private int points;
+    private long points;
 
     /**
-     * ArrayList reference to the map (which is a list of rooms)
+     * ArrayUnorderedList reference to the map (which is a list of rooms)
      */
-    private ArrayList<Room> map;
+    private ArrayUnorderedList<Room> map;
 
     /**
      * Creates an instance of a {@link JSONFile JSON File} without atributes
@@ -36,10 +36,10 @@ public class JSONFile {
      * Creates an instance of a {@link JSONFile JSON File} with the default attributes
      *
      * @param name   String name
-     * @param points int life points of the user
-     * @param map    ArrayList map (list of rooms)
+     * @param points long life points of the user
+     * @param map    ArrayUnorderedList map (list of rooms)
      */
-    public JSONFile(String name, int points, ArrayList<Room> map) {
+    public JSONFile(String name, long points, ArrayUnorderedList<Room> map) {
         this.name = name;
         this.points = points;
         this.map = map;
@@ -66,36 +66,36 @@ public class JSONFile {
     /**
      * Gets the life points of the user
      *
-     * @return int life points of the user
+     * @return long life points of the user
      */
-    public int getPoints() {
+    public long getPoints() {
         return points;
     }
 
     /**
      * Sets the life points of the user
      *
-     * @param points int life points of the user
+     * @param points long life points of the user
      */
-    public void setPoints(int points) {
+    public void setPoints(long points) {
         this.points = points;
     }
 
     /**
      * Gets the map (list of rooms)
      *
-     * @return ArrayList map (list of rooms)
+     * @return ArrayUnorderedList map (list of rooms)
      */
-    public ArrayList<Room> getMap() {
+    public ArrayUnorderedList<Room> getMap() {
         return map;
     }
 
     /**
      * Sets the map (list of rooms)
      *
-     * @param map ArrayList map (list of rooms)
+     * @param map ArrayUnorderedList map (list of rooms)
      */
-    public void setMap(ArrayList<Room> map) {
+    public void setMap(ArrayUnorderedList<Room> map) {
         this.map = map;
     }
 
