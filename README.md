@@ -1,4 +1,4 @@
-# :ghost: Casa Assombrada :ghost:
+# :ghost: Haunted House :ghost:
 
 ## Âmbito
 Projeto realizado no âmbito da unidade curricular de **Estruturas de Dados** da **Escola Superior de Tecnologia e Gestão - P.Porto** para a época de recurso do ano letivo 2019/20
