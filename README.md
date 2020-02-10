@@ -17,6 +17,5 @@ O presente projeto a ser desenvolvido tem por objetivo construir um software que
 
 
 ## Autores
-* **Luis Marques** - 8170485 - [LuisMarques99](https://github.com/LuisMarques99)
 * **Francisco Pinto** - 8170580 - [RedByte2101](https://github.com/RedByte2101)
-
+* **Luis Marques** - 8170485 - [LuisMarques99](https://github.com/LuisMarques99)
