@@ -71,6 +71,16 @@ public abstract class ArrayList<T> implements ListADT<T> {
     }
 
     /**
+     * Gets the element of the list at a defined index
+     *
+     * @param index int index
+     * @return T element
+     */
+    public T get(int index) {
+        return list[index];
+    }
+
+    /**
      * Removes the first element from this list.
      *
      * @return the first element of this list
@@ -235,12 +245,12 @@ public abstract class ArrayList<T> implements ListADT<T> {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        string.append("[");
+        string.append("[ ");
         Iterator<T> iterator = this.iterator();
         while (iterator.hasNext()) {
-            string.append(" ").append(iterator.next());
+            string.append(iterator.next()).append(" ");
         }
-        string.append(" ]");
+        string.append("]");
         return string.toString();
     }
 

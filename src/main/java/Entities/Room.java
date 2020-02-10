@@ -1,6 +1,6 @@
 package Entities;
 
-import MyCollection.List.ArrayList;
+import MyCollection.List.ArrayUnorderedList;
 
 /**
  * <h3>
@@ -16,14 +16,14 @@ public class Room {
     private String name;
 
     /**
-     * int reference to the number of points the ghost takes from the user (0 means the room has no ghost)
+     * long reference to the number of points the ghost takes from the user (0 means the room has no ghost)
      */
-    private int ghost;
+    private long ghost;
 
     /**
-     * ArrayList reference to the connections the room has
+     * ArrayUnorderedList reference to the connections the room has
      */
-    private ArrayList<String> connections;
+    private ArrayUnorderedList<String> connections;
 
     public Room() {
     }
@@ -32,10 +32,10 @@ public class Room {
      * Creates na instance of a {@link Room room} with the default attributes
      *
      * @param name        String name
-     * @param ghost       int number of points taken by the ghost
-     * @param connections ArrayList connections
+     * @param ghost       long number of points taken by the ghost
+     * @param connections ArrayUnorderedList connections
      */
-    public Room(String name, int ghost, ArrayList<String> connections) {
+    public Room(String name, long ghost, ArrayUnorderedList<String> connections) {
         this.name = name;
         this.ghost = ghost;
         this.connections = connections;
@@ -62,45 +62,41 @@ public class Room {
     /**
      * Gets the ghost of the room
      *
-     * @return int points the ghost of the room takes the user
+     * @return long points the ghost of the room takes the user
      */
-    public int getGhost() {
+    public long getGhost() {
         return ghost;
     }
 
     /**
      * Sets the ghost of the room
      *
-     * @param ghost int points the ghost of the room takes the user
+     * @param ghost long points the ghost of the room takes the user
      */
-    public void setGhost(int ghost) {
+    public void setGhost(long ghost) {
         this.ghost = ghost;
     }
 
     /**
      * Gets the connections of the room
      *
-     * @return ArrayList connections of the room
+     * @return ArrayUnorderedList connections of the room
      */
-    public ArrayList<String> getConnections() {
+    public ArrayUnorderedList<String> getConnections() {
         return connections;
     }
 
     /**
      * Sets the connections of the room
      *
-     * @param connections ArrayList connections of the room
+     * @param connections ArrayUnorderedList connections of the room
      */
-    public void setConnections(ArrayList<String> connections) {
+    public void setConnections(ArrayUnorderedList<String> connections) {
         this.connections = connections;
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "name='" + name + '\'' +
-                ", ghost=" + ghost +
-                ", connections=" + connections +
-                '}';
+        return "{ name = \"" + name + "\", ghost = " + ghost + ", connections=" + connections + "}\n";
     }
 }

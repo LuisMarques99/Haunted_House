@@ -1,5 +1,6 @@
 package Entities;
 
+import Exceptions.InvalidFileException;
 import MyCollection.List.ArrayUnorderedList;
 
 /**
@@ -95,16 +96,32 @@ public class JSONFile {
      *
      * @param map ArrayUnorderedList map (list of rooms)
      */
-    public void setMap(ArrayUnorderedList<Room> map) {
+    public void setMap(ArrayUnorderedList<Room> map) throws InvalidFileException {
+        int entry = 0, exit = 0;
+        for (int i = 0; i < map.size(); i++) {
+            ArrayUnorderedList<String> tempConnections = map.get(i).getConnections();
+            for (int j = 0; j < tempConnections.size(); j++) {
+                if (tempConnections.get(j).equals("entrada")) {
+                    entry++;
+                }
+                if (tempConnections.get(j).equals("exterior")) {
+                    exit++;
+                }
+            }
+        }
+        if (entry < 1) {
+            throw new InvalidFileException("The map must have at least one entry!");
+        } else if (entry > 1) {
+            throw new InvalidFileException("The map can't have more than one entry!");
+        } else if (exit < 0) {
+            throw new InvalidFileException("The map must have at least one exit!");
+        }
+
         this.map = map;
     }
 
     @Override
     public String toString() {
-        return "JSONFile{" +
-                "name='" + name + '\'' +
-                ", points=" + points +
-                ", map=" + map.toString() +
-                '}';
+        return "JSONFile\n{\nname = \"" + name + "\"\npoints = " + points + "\nmap = " + map.toString() + "\n}";
     }
 }
