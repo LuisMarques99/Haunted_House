@@ -52,9 +52,11 @@ public class FileManager {
             Room tempRoom = new Room();
 
             tempRoom.setName((String) mapObject.get("aposento"));
-
             tempRoom.setGhost((long) mapObject.get("fantasma"));
 
+            /**
+             * Aqui temos de carregar para uma network!
+             */
             ArrayUnorderedList<String> connections = new ArrayUnorderedList<>();
             JSONArray connectionsArray = (JSONArray) mapObject.get("ligacoes");
             for (int j = 0; j < connectionsArray.size(); j++) {
@@ -64,9 +66,7 @@ public class FileManager {
 
             rooms.addToRear(tempRoom);
         }
-
         jsonFile.setMap(rooms);
-
         return jsonFile;
     }
 }

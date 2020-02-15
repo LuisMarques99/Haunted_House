@@ -51,8 +51,6 @@ public class Menu {
             }
 
         } while (option != 0);
-
-        scanner.close();
         clear();
     }
 
@@ -75,12 +73,10 @@ public class Menu {
         filePath = scanner.nextLine();
 
         jsonFile = FileManager.readJsonFile(filePath);
-
-        scanner.close();
         clear();
     }
 
-    public static void start() throws ParseException, InvalidFileException, IOException {
+    public static void start() {
         Scanner scanner = new Scanner(System.in);
         String str;
 
@@ -88,22 +84,26 @@ public class Menu {
 
         System.out.println("================== Haunted House =================\n");
         System.out.println("  Map: " + jsonFile.getName() + "\n");
-        System.out.println("  Life points: " + jsonFile.getPoints() + "\n");
+        System.out.println("  Player: " + user.getName() + "\n");
+        System.out.println("  Player life points: " + user.getLifePoints());
         System.out.println("\n==================================================");
-        System.out.println("\n↓ " + user.getName() + " ↓");
 
         str = scanner.nextLine();
 
-        System.out.println("\n" + user.getName() + ": \"" + str + "\"");
+        /**
+         * Aqui tem de se fazer um scan para a escolha do aposento que se vai escolher??
+         */
 
-        scanner.close();
+        System.out.println("\n" + user.getName() + ": \"" + str + "\"");
         clear();
     }
 
     public static void copyright() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("==================== Done by: ====================\n");
-        System.out.println("  Luis Marques - 8170485");
+        System.out.println("  Luis Marques - 8170485\n  Francisco Pinto - 8170580");
         System.out.println("\n==================================================");
+        scanner.close();
     }
 
     /**

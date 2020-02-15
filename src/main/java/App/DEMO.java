@@ -12,18 +12,10 @@ import java.util.Scanner;
  * </h3>
  */
 public class DEMO {
-    public static void main(String[] args) {
-        //Menu.userDefinition();
-        try {
-            //Menu.loadFile();
-            Menu.start();
-            //Menu.copyright();
-        } catch (ParseException e) {
-            System.err.println(e.getMessage());
-        } catch (InvalidFileException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
+    public static void main(String[] args) throws ParseException, InvalidFileException, IOException {
+        Menu.userDefinition();
+        Menu.loadFile();
+        Menu.start();
+        Menu.copyright();
     }
 }

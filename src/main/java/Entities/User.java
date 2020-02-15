@@ -27,8 +27,7 @@ public class User {
     /**
      * Creates an instance of a {@link User user}
      */
-    public User() {
-    }
+    public User() {}
 
     /**
      * Gets the user name
