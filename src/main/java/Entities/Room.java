@@ -25,8 +25,7 @@ public class Room {
      */
     private ArrayUnorderedList<String> connections;
 
-    public Room() {
-    }
+    public Room() {}
 
     /**
      * Creates na instance of a {@link Room room} with the default attributes

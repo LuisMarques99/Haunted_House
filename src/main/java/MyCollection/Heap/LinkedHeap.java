@@ -177,4 +177,9 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         } else
             return root.getElement();
     }
+
+    public void removeAllElements() {
+        count = 0;
+        root = null;
+    }
 }

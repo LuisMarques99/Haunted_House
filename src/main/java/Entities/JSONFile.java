@@ -1,7 +1,6 @@
 package Entities;
 
-import Exceptions.InvalidFileException;
-import MyCollection.List.ArrayUnorderedList;
+import MyCollection.Graph.Network;
 
 /**
  * <h3>
@@ -25,7 +24,7 @@ public class JSONFile {
     /**
      * ArrayUnorderedList reference to the map (which is a list of rooms)
      */
-    private ArrayUnorderedList<Room> map;
+    private Network<Room> map;
 
     /**
      * Creates an instance of a {@link JSONFile JSON File} without atributes
@@ -40,7 +39,7 @@ public class JSONFile {
      * @param points long life points of the user
      * @param map    ArrayUnorderedList map (list of rooms)
      */
-    public JSONFile(String name, long points, ArrayUnorderedList<Room> map) {
+    public JSONFile(String name, long points, Network<Room> map) {
         this.name = name;
         this.points = points;
         this.map = map;
@@ -87,7 +86,7 @@ public class JSONFile {
      *
      * @return ArrayUnorderedList map (list of rooms)
      */
-    public ArrayUnorderedList<Room> getMap() {
+    public Network<Room> getMap() {
         return map;
     }
 
@@ -96,29 +95,7 @@ public class JSONFile {
      *
      * @param map ArrayUnorderedList map (list of rooms)
      */
-    public void setMap(ArrayUnorderedList<Room> map) throws InvalidFileException {
-        int entry = 0, exit = 0;
-        for (int i = 0; i < map.size(); i++) {
-            ArrayUnorderedList<String> tempConnections = map.get(i).getConnections();
-            for (int j = 0; j < tempConnections.size(); j++) {
-                if (tempConnections.get(j).equals("entrada")) {
-                    entry++;
-                }
-                if (tempConnections.get(j).equals("exterior")) {
-                    exit++;
-                }
-            }
-        }
-        if (entry < 1) {
-            throw new InvalidFileException("The map must have at least one entry!");
-        } else if (entry > 1) {
-            throw new InvalidFileException("The map can't have more than one entry!");
-        } else if (exit < 0) {
-            throw new InvalidFileException("The map must have at least one exit!");
-        }
-
-        this.map = map;
-    }
+    public void setMap(Network<Room> map) { this.map = map; }
 
     @Override
     public String toString() {

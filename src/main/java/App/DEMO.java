@@ -2,9 +2,7 @@ package App;
 
 import Exceptions.InvalidFileException;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * <h3>

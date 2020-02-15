@@ -2,9 +2,7 @@ package App;
 
 import Entities.JSONFile;
 import Entities.User;
-import Exceptions.InvalidFileException;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -58,10 +56,9 @@ public class Menu {
      * Loads the JSON file
      *
      * @throws ParseException
-     * @throws InvalidFileException
      * @throws IOException
      */
-    public static void loadFile() throws ParseException, InvalidFileException, IOException {
+    public static void loadFile() throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String filePath;
 
@@ -89,11 +86,6 @@ public class Menu {
         System.out.println("\n==================================================");
 
         str = scanner.nextLine();
-
-        /**
-         * Aqui tem de se fazer um scan para a escolha do aposento que se vai escolher??
-         */
-
         System.out.println("\n" + user.getName() + ": \"" + str + "\"");
         clear();
     }

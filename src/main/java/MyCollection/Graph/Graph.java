@@ -103,7 +103,7 @@ public class Graph<T> implements GraphADT<T> {
      * @param vertex1
      * @return
      */
-    private int getIndex(T vertex1) {
+    public int getIndex(T vertex1) {
         // TODO Auto-generated method stub
         for (int i = 0; i <= numVertices; i++) {
             if (vertices[i].equals(vertex1)) {
