@@ -2,6 +2,8 @@ package Entities;
 
 import MyCollection.List.ArrayUnorderedList;
 
+import java.util.Iterator;
+
 /**
  * <h3>
  * <strong>Class that represents the structure of a {@link Room Room}</strong>
@@ -24,8 +26,6 @@ public class Room {
      * ArrayUnorderedList reference to the connections the room has
      */
     private ArrayUnorderedList<String> connections;
-
-    public Room() {}
 
     /**
      * Creates na instance of a {@link Room room} with the default attributes

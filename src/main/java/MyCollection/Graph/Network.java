@@ -50,7 +50,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
          */
         result += "Adjacency Matrix\n";
         result += "----------------\n";
-        result += "index\t";
+        result += "\t";
 
         for (int i = 0; i < numVertices; i++) {
             result += "" + i;
