@@ -2,8 +2,15 @@ package App;
 
 import Entities.JSONFile;
 import Entities.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Menu {
@@ -26,12 +33,14 @@ public class Menu {
 
         Scanner scanner = new Scanner(System.in);
         int option;
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_GREEN = "\u001B[32m";
 
         do {
-            System.out.println("================= User Selection =================\n");
+            System.out.println("\n================= " + ANSI_GREEN + "User Selection" +  ANSI_RESET + " =================");
             System.out.println("  1 - Enter your username");
             System.out.println("  2 - Play as a guest");
-            System.out.println("\n==================================================");
+            System.out.println("==================================================");
             System.out.println("\n↓ Insert your option ↓");
 
             option = scanner.nextInt();
@@ -49,7 +58,6 @@ public class Menu {
             }
 
         } while (option != 0);
-        clear();
     }
 
     /**
@@ -61,49 +69,43 @@ public class Menu {
     public static void loadFile() throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         String filePath;
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_BLUE = "\u001B[34m";
 
-        System.out.println("=================== File Loader ==================\n");
-        System.out.println("  Enter the path to the map (JSON file)");
-        System.out.println("\n==================================================");
+        System.out.println("\n\n====================== " + ANSI_BLUE + "File Loader" + ANSI_RESET + " =======================");
+        System.out.println("  Enter the path to the map (JSON file) you wish to play");
+        System.out.println("==========================================================");
         System.out.println("\n↓ Insert the file path ↓");
-
         filePath = scanner.nextLine();
-
         jsonFile = FileManager.readJsonFile(filePath);
-        clear();
     }
 
     public static void start() {
-        Scanner scanner = new Scanner(System.in);
-        String str;
-
         user.setLifePoints(jsonFile.getPoints());
 
-        System.out.println("================== Haunted House =================\n");
-        System.out.println("  Map: " + jsonFile.getName() + "\n");
-        System.out.println("  Player: " + user.getName() + "\n");
+        System.out.println("================== Haunted House =================");
+        System.out.println("  Map: " + jsonFile.getName());
+        System.out.println("  Player: " + user.getName());
         System.out.println("  Player life points: " + user.getLifePoints());
-        System.out.println("\n==================================================");
-
-        str = scanner.nextLine();
-        System.out.println("\n" + user.getName() + ": \"" + str + "\"");
-        clear();
+        System.out.println("==================================================\n\n");
+        FileManager.playGame(user);
     }
 
     public static void copyright() {
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
         Scanner scanner = new Scanner(System.in);
-        System.out.println("==================== Done by: ====================\n");
-        System.out.println("  Luis Marques - 8170485\n  Francisco Pinto - 8170580");
-        System.out.println("\n==================================================");
+        System.out.println("\n" + ANSI_RED + "Program terminated!" + ANSI_RESET);
+        System.out.println("\n\nDone by: ");
+        System.out.println("Luis Marques - 8170485\nFrancisco Pinto - 8170580");
         scanner.close();
     }
 
     /**
-     * Clears the screen
+     * Search the leaderboards from a given map
+     * @param mapName the name of the map to be searched
      */
-    public static void clear() {
-        for (int i = 0; i < 50; i++) {
-            System.out.println("\n");
-        }
+    public static void searchLeaderBoards(String mapName) {
+        //falta fazer isto
     }
 }

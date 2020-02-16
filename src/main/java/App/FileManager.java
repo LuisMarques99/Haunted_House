@@ -2,15 +2,19 @@ package App;
 
 import Entities.JSONFile;
 import Entities.Room;
+import Entities.User;
 import MyCollection.Graph.Network;
+import MyCollection.List.ArrayOrderedList;
 import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * <h3>
@@ -62,6 +66,8 @@ public class FileManager {
 
         nome = (String) jsonobj.get("nome");
         pontos = ((Long) jsonobj.get("pontos")).intValue();
+        jsonFile.setName(nome);
+        jsonFile.setPoints(pontos);
 
         JSONArray array = (JSONArray) jsonobj.get("mapa");
 
@@ -127,7 +133,6 @@ public class FileManager {
                 }
             }
         }
-
         System.out.println(network.toString());
         jsonFile.setMap(network);
         return jsonFile;
@@ -143,6 +148,7 @@ public class FileManager {
         ArrayUnorderedList divisoes = vertices;
         Room div = null;
         boolean found = false;
+        int count = 0;
 
         Iterator<Room> iterator = divisoes.iterator();
 
@@ -151,7 +157,124 @@ public class FileManager {
 
             if ((div.getName()).equals(divisao)) {
                 found = true;
+                count++;
             }
+        }
+        if (count == 0){
+            System.out.println("Division not found!");
+        }
+        return div;
+    }
+
+    /**
+     * Method responsible for the string representation of all the player options in a given division
+     * @param current_div the player´s current division placement
+     */
+    public static void showOptions(Room current_div){
+        Iterator<String> iterator = current_div.getConnections().iterator();
+        System.out.println("Connections available: ");
+        while (iterator.hasNext()) {
+            String lig = iterator.next();
+            System.out.println(">> " + lig);
+        }
+    }
+
+    /**
+     * Method responsible to start the game and play it until the player loses all their lives or finished
+     * by going throw the exit division
+     * @param user the user playing the game
+     */
+    public static void playGame(User user){
+        Room current_div = searchDivision("entrada");
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_BLUE = "\u001B[34m";
+
+        while (current_div != searchDivision("exterior") && user.getLifePoints() > 0){
+            System.out.println("=====================================================");
+            System.out.println("  >> Life points: " + ANSI_RED + user.getLifePoints() + ANSI_RESET);
+            System.out.println("  >> Current position: " + ANSI_BLUE + current_div.getName() + ANSI_RESET);
+            System.out.println("=====================================================\n");
+            Scanner scanner = new Scanner((System.in));
+            String option;
+            System.out.println("Choose your move, but be careful, there are ghosts nearby!");
+            showOptions(current_div);
+            option = scanner.nextLine();
+            current_div = chooseDivision(option , current_div , user);
+        }
+
+        if (current_div.equals(searchDivision("exterior"))){
+            System.out.println("\n" + ANSI_GREEN + "===============================================================" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + " You did it! You escaped this level with " + user.getLifePoints() + " points remaining." + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "===============================================================\n\n" + ANSI_RESET);
+            saveToLeaderBoards(user.getName() , user.getLifePoints() , jsonFile.getName());
+        }
+        else{
+            System.out.println("\n" + ANSI_RED + "====================================" + ANSI_RESET);
+            System.out.println(ANSI_RED + " You died! Better luck next time..." + ANSI_RESET);
+            System.out.println(ANSI_RED + "====================================\n\n" + ANSI_RESET);
+        }
+    }
+
+    /**
+     * Method responsible to store data about games played
+     * @param name the username from the user who played the game
+     * @param points the number of life points remaining
+     * @param map the name of the map played
+     */
+    private static void saveToLeaderBoards(String name , Long points , String map) {
+        //ISTO AINDA NAO ESTA A FUNCIONAR CORRETAMENTE!!!
+        JSONArray gamesPlayed = new JSONArray();
+        JSONObject details = new JSONObject();
+        details.put("Player name" , name);
+        details.put("Life points " , points);
+        details.put("Map" , map);
+
+        JSONObject gameObject = new JSONObject();
+        gameObject.put("Game" , details);
+
+        gamesPlayed.add(gameObject);
+
+        try (FileWriter file = new FileWriter("leaderboards.json")) {
+
+            file.write(gamesPlayed.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method responsible to change the player current position given the current position of the player {@param div}
+     * and the division (String) where the player chooses to go next {@param division} and the current user playing the game {@param user}
+     * @param division the division where the player wants to go
+     * @param div the current position of the player
+     * @return the new current position of the player in the map
+     */
+    public static Room chooseDivision(String division , Room div , User user){
+        Iterator<String> iterator = div.getConnections().iterator();
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+
+        int count = 0;
+        while (iterator.hasNext()){
+            String lig = iterator.next();
+            if (division.equals(lig)){
+                div = searchDivision(lig);
+                count++;
+                if (div.getGhost() > 0){
+                    System.out.println(ANSI_RED + "\nOh no! A ghost just appeared... RUN!" + ANSI_RESET);
+                    long hit = div.getGhost();
+                    long life = user.getLifePoints() - hit;
+                    user.setLifePoints(life);
+                    System.out.println("\n");
+                }
+            }
+        }
+        if(count == 0){
+            System.out.println("\nInvalid division choice...");
         }
         return div;
     }

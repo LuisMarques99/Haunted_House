@@ -48,7 +48,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         /**
          * Print the adjacency Matrix
          */
-        result += "Adjacency Matrix\n";
+        result += "\n\nAdjacency Matrix\n";
         result += "----------------\n";
         result += "\t";
 
