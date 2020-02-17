@@ -4,16 +4,17 @@ import Entities.JSONFile;
 import Entities.Room;
 import Entities.User;
 import MyCollection.Graph.Network;
-import MyCollection.List.ArrayOrderedList;
 import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -58,6 +59,10 @@ public class FileManager {
      * @throws ParseException
      */
     public static JSONFile readJsonFile(String filePath) throws IOException, ParseException {
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_GREEN = "\u001B[32m";
+
         network = new Network<>();
         vertices = new ArrayUnorderedList<>();
 
@@ -135,7 +140,51 @@ public class FileManager {
         }
         System.out.println(network.toString());
         jsonFile.setMap(network);
+        System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
+        generateShield(vertices);
         return jsonFile;
+    }
+
+    /**
+     * Method responsible for generation a protection shield that gives the player a random amount of life points
+     * Generates the shield in a random division
+     * Generates a random amount of points bases on minimum amount of 1 point and maximum amount of points available in
+     * the ghost points of the map
+     * @param vertices the structure that contains the divisions
+     */
+    private static void generateShield(ArrayUnorderedList<Room> vertices) {
+        ArrayUnorderedList<Room> tempVertices = new ArrayUnorderedList<>();
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_GREEN = "\u001B[32m";
+
+        //Get all the rooms that contains no ghost
+        for(int a = 0 ; a < vertices.size() ; a++){
+            if (vertices.get(a).getGhost() == 0 && vertices.get(a).getName() != "entrada" && vertices.get(a).getName() != "exterior"){
+                tempVertices.addToRear(vertices.get(a));
+            }
+        }
+        //Randomly select a room that contains no ghost
+        int max = tempVertices.size();
+        Random rand = new Random();
+        int n = rand.nextInt(max);
+
+        //Get the max damage from a ghost in the present map
+        long top = 0;
+        for (int a = 0 ; a < vertices.size() ; a++){
+            if(top < vertices.get(a).getGhost()){
+                top = vertices.get(a).getGhost();
+            }
+        }
+
+        //Randomly generate a defense value
+        int shield = rand.nextInt((int) top - 1) + 1;
+
+        for (int a = 0 ; a < vertices.size() ; a++){
+            if (vertices.get(a).getName().equals(tempVertices.get(n).getName())){
+                vertices.get(a).setGhost(shield * -1);
+                System.out.println(ANSI_GREEN + ">> Protection shield generated successfully!" + ANSI_RESET + "\n");
+            }
+        }
     }
 
     /**
@@ -231,10 +280,7 @@ public class FileManager {
         details.put("Life points " , points);
         details.put("Map" , map);
 
-        JSONObject gameObject = new JSONObject();
-        gameObject.put("Game" , details);
-
-        gamesPlayed.add(gameObject);
+        gamesPlayed.add(details);
 
         try (FileWriter file = new FileWriter("leaderboards.json")) {
 
@@ -257,6 +303,7 @@ public class FileManager {
         Iterator<String> iterator = div.getConnections().iterator();
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
+        final String ANSI_BLUE = "\u001B[34m";
 
         int count = 0;
         while (iterator.hasNext()){
@@ -270,6 +317,13 @@ public class FileManager {
                     long life = user.getLifePoints() - hit;
                     user.setLifePoints(life);
                     System.out.println("\n");
+                }
+                else if(div.getGhost() < 0){
+                    long res = div.getGhost() * -1;
+                    long up = user.getLifePoints() + res;
+                    user.setLifePoints(up);
+                    div.setGhost(0);
+                    System.out.println("\n" + ANSI_BLUE + "Apanhou um escudo de proteccao! " + res + " pontos de vida adicionados." + ANSI_RESET + "\n");
                 }
             }
         }
