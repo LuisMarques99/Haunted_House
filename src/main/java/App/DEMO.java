@@ -1,8 +1,8 @@
 package App;
 
+import Exceptions.FileNotFoundException;
 import org.json.simple.parser.ParseException;
 
-import javax.crypto.spec.PSource;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ import java.util.Scanner;
  * </h3>
  */
 public class DEMO {
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
         Scanner tec = new Scanner(System.in);
         int opt;
         final String ANSI_RESET = "\u001B[0m";

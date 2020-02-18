@@ -2,12 +2,12 @@ package App;
 
 import Entities.JSONFile;
 import Entities.User;
+import Exceptions.FileNotFoundException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -80,7 +80,7 @@ public class Menu {
         jsonFile = FileManager.readJsonFile(filePath);
     }
 
-    public static void start() {
+    public static void start() throws IOException, ParseException, FileNotFoundException {
         user.setLifePoints(jsonFile.getPoints());
 
         System.out.println("================== Haunted House =================");

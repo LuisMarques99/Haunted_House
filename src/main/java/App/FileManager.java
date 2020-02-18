@@ -3,6 +3,7 @@ package App;
 import Entities.JSONFile;
 import Entities.Room;
 import Entities.User;
+import Exceptions.FileNotFoundException;
 import MyCollection.Graph.Network;
 import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
@@ -49,6 +50,10 @@ public class FileManager {
      * Map divisions to be stored here
      */
     private static ArrayUnorderedList<Room> vertices;
+
+    //private static JSONFile leaderBoardFile = new JSONFile();
+
+    private static JSONArray leaderBoard = new JSONArray();
 
     /**
      * Reads the JSON file that contains the map information
@@ -149,6 +154,7 @@ public class FileManager {
      * Generates the shield in a random division
      * Generates a random amount of points bases on minimum amount of 1 point and maximum amount of points available in
      * the ghost points of the map
+     *
      * @param vertices the structure that contains the divisions
      */
     private static void generateShield(ArrayUnorderedList<Room> vertices) {
@@ -159,16 +165,15 @@ public class FileManager {
         int count = 0;
 
         //Get all the rooms that contains no ghost
-        for(int a = 0 ; a < vertices.size() ; a++){
-            if (vertices.get(a).getGhost() == 0 && vertices.get(a).getName() != "entrada" && vertices.get(a).getName() != "exterior"){
+        for (int a = 0; a < vertices.size(); a++) {
+            if (vertices.get(a).getGhost() == 0 && vertices.get(a).getName() != "entrada" && vertices.get(a).getName() != "exterior") {
                 tempVertices.addToRear(vertices.get(a));
                 count++;
             }
         }
-        if(count == 0){
+        if (count == 0) {
             System.out.println(ANSI_RED + ">> Impossible to generate shield!" + ANSI_RESET + "\n");
-        }
-        else{
+        } else {
             //Randomly select a room that contains no ghost
             int max = tempVertices.size();
             Random rand = new Random();
@@ -176,8 +181,8 @@ public class FileManager {
 
             //Get the max damage from a ghost in the present map
             long top = 0;
-            for (int a = 0 ; a < vertices.size() ; a++){
-                if(top < vertices.get(a).getGhost()){
+            for (int a = 0; a < vertices.size(); a++) {
+                if (top < vertices.get(a).getGhost()) {
                     top = vertices.get(a).getGhost();
                 }
             }
@@ -185,8 +190,8 @@ public class FileManager {
             //Randomly generate a defense value
             int shield = rand.nextInt((int) top - 1) + 1;
 
-            for (int a = 0 ; a < vertices.size() ; a++){
-                if (vertices.get(a).getName().equals(tempVertices.get(n).getName())){
+            for (int a = 0; a < vertices.size(); a++) {
+                if (vertices.get(a).getName().equals(tempVertices.get(n).getName())) {
                     vertices.get(a).setGhost(shield * -1);
                     System.out.println(ANSI_GREEN + ">> Protection shield generated successfully!" + ANSI_RESET + "\n");
                 }
@@ -216,7 +221,7 @@ public class FileManager {
                 count++;
             }
         }
-        if (count == 0){
+        if (count == 0) {
             System.out.println("Division not found!");
         }
         return div;
@@ -224,9 +229,10 @@ public class FileManager {
 
     /**
      * Method responsible for the string representation of all the player options in a given division
+     *
      * @param current_div the player´s current division placement
      */
-    public static void showOptions(Room current_div){
+    public static void showOptions(Room current_div) {
         Iterator<String> iterator = current_div.getConnections().iterator();
         System.out.println("Connections available: ");
         while (iterator.hasNext()) {
@@ -238,16 +244,17 @@ public class FileManager {
     /**
      * Method responsible to start the game and play it until the player loses all their lives or finished
      * by going throw the exit division
+     *
      * @param user the user playing the game
      */
-    public static void playGame(User user){
+    public static void playGame(User user) throws IOException, ParseException, FileNotFoundException {
         Room current_div = searchDivision("entrada");
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
         final String ANSI_BLUE = "\u001B[34m";
 
-        while (current_div != searchDivision("exterior") && user.getLifePoints() > 0){
+        while (current_div != searchDivision("exterior") && user.getLifePoints() > 0) {
             System.out.println("=====================================================");
             System.out.println("  >> Life points: " + ANSI_RED + user.getLifePoints() + ANSI_RESET);
             System.out.println("  >> Current position: " + ANSI_BLUE + current_div.getName() + ANSI_RESET);
@@ -257,75 +264,100 @@ public class FileManager {
             System.out.println("Choose your move, but be careful, there are ghosts nearby!");
             showOptions(current_div);
             option = scanner.nextLine();
-            current_div = chooseDivision(option , current_div , user);
+            current_div = chooseDivision(option, current_div, user);
         }
 
-        if (current_div.equals(searchDivision("exterior"))){
+        if (current_div.equals(searchDivision("exterior"))) {
             System.out.println("\n" + ANSI_GREEN + "===============================================================" + ANSI_RESET);
             System.out.println(ANSI_GREEN + " You did it! You escaped this level with " + user.getLifePoints() + " points remaining." + ANSI_RESET);
             System.out.println(ANSI_GREEN + "===============================================================\n\n" + ANSI_RESET);
-            saveToLeaderBoards(user.getName() , user.getLifePoints() , jsonFile.getName());
-        }
-        else{
+            saveToLeaderBoards(user.getName(), user.getLifePoints(), jsonFile.getName());
+        } else {
             System.out.println("\n" + ANSI_RED + "====================================" + ANSI_RESET);
             System.out.println(ANSI_RED + " You died! Better luck next time..." + ANSI_RESET);
             System.out.println(ANSI_RED + "====================================\n\n" + ANSI_RESET);
         }
     }
 
+    private static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("leaderboards.json"));
+
+            if (jsonArray.size() != 0) {
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+                    JSONObject details = new JSONObject();
+                    details.put("Player name", jsonObj.get("Player name"));
+                    details.put("Life points", jsonObj.get("Life points"));
+                    details.put("Map", jsonObj.get("Map"));
+
+                    leaderBoard.add(details);
+                }
+            }
+        } catch (java.io.FileNotFoundException e) {
+            throw new FileNotFoundException("File not found!");
+        }
+    }
+
     /**
      * Method responsible to store data about games played
-     * @param name the username from the user who played the game
+     *
+     * @param name   the username from the user who played the game
      * @param points the number of life points remaining
-     * @param map the name of the map played
+     * @param map    the name of the map played
      */
-    private static void saveToLeaderBoards(String name , Long points , String map) {
-        //ISTO AINDA NAO ESTA A FUNCIONAR CORRETAMENTE!!!
-        JSONArray gamesPlayed = new JSONArray();
-        JSONObject details = new JSONObject();
-        details.put("Player name" , name);
-        details.put("Life points " , points);
-        details.put("Map" , map);
+    private static void saveToLeaderBoards(String name, Long points, String map) throws IOException, ParseException {
+        try {
+            readExistingLeaderBoard();
+        } catch (FileNotFoundException e) {
 
-        gamesPlayed.add(details);
+        } finally {
+            JSONObject details = new JSONObject();
+            details.put("Player name", name);
+            details.put("Life points", points);
+            details.put("Map", map);
 
-        try (FileWriter file = new FileWriter("leaderboards.json")) {
+            leaderBoard.add(details);
 
-            file.write(gamesPlayed.toJSONString());
-            file.flush();
+            try (FileWriter file = new FileWriter("leaderboards.json")) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                file.write(leaderBoard.toJSONString());
+                file.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
      * Method responsible to change the player current position given the current position of the player {@param div}
      * and the division (String) where the player chooses to go next {@param division} and the current user playing the game {@param user}
+     *
      * @param division the division where the player wants to go
-     * @param div the current position of the player
+     * @param div      the current position of the player
      * @return the new current position of the player in the map
      */
-    public static Room chooseDivision(String division , Room div , User user){
+    public static Room chooseDivision(String division, Room div, User user) {
         Iterator<String> iterator = div.getConnections().iterator();
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BLUE = "\u001B[34m";
 
         int count = 0;
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String lig = iterator.next();
-            if (division.equals(lig)){
+            if (division.equals(lig)) {
                 div = searchDivision(lig);
                 count++;
-                if (div.getGhost() > 0){
+                if (div.getGhost() > 0) {
                     System.out.println(ANSI_RED + "\nOh no! A ghost just appeared... RUN!" + ANSI_RESET);
                     long hit = div.getGhost();
                     long life = user.getLifePoints() - hit;
                     user.setLifePoints(life);
                     System.out.println("\n");
-                }
-                else if(div.getGhost() < 0){
+                } else if (div.getGhost() < 0) {
                     long res = div.getGhost() * -1;
                     long up = user.getLifePoints() + res;
                     user.setLifePoints(up);
@@ -334,7 +366,7 @@ public class FileManager {
                 }
             }
         }
-        if(count == 0){
+        if (count == 0) {
             System.out.println("\nInvalid division choice...");
         }
         return div;
