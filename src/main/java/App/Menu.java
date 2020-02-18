@@ -3,7 +3,6 @@ package App;
 import Entities.JSONFile;
 import Entities.User;
 import Exceptions.FileNotFoundException;
-import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -23,6 +22,16 @@ public class Menu {
      * JSONFile reference to the map
      */
     private static JSONFile jsonFile = new JSONFile();
+
+    /**
+     * long[] reference to a array of scores
+     */
+    private static long[] scores = new long[10];
+
+    /**
+     * String[] reference to a array of players
+     */
+    private static String[] players = new String[10];
 
     /**
      * Defines the user name to be used in the game
@@ -109,7 +118,6 @@ public class Menu {
     public static void searchLeaderBoards(String mapName) throws ParseException, FileNotFoundException, IOException {
         FileManager.readExistingLeaderBoard();
         JSONArray leaderBoard = FileManager.getLeaderBoard();
-        ArrayUnorderedList<JSONObject> mapBoard = new ArrayUnorderedList<>();
         int count = 0;
 
         final String ANSI_RED = "\u001B[31m";
@@ -117,44 +125,67 @@ public class Menu {
 
         for (int i = 0; i < leaderBoard.size(); i++) {
             JSONObject jsonObj = (JSONObject) leaderBoard.get(i);
-            JSONObject details = new JSONObject();
 
             if (jsonObj.get("Map").equals(mapName)) {
-                details.put("Score", jsonObj.get("Life points"));
-                details.put("Player", jsonObj.get("Player name"));
-                mapBoard.addToRear(details);
+                if (players[players.length - 1] != null) {
+                    extendLeaderboardCapacity();
+                }
+                for (int j = 0; j < scores.length; j++) {
+                    if (players[i] == null) {
+                        scores[i] = (long) jsonObj.get("Life points");
+                        players[i] = (String) jsonObj.get("Player name");
+                    }
+                }
                 count++;
             }
         }
         if (count == 0) {
             System.out.println(ANSI_RED + "This map has no leaderboard or does not exist!" + ANSI_RESET);
         } else {
-            /*while (true) {
+            while (true) {
                 boolean end = true;
-                for (int i = 0; i < mapBoard.size() - 1; i++) {
-                    JSONObject current = mapBoard.get(i);
-                    System.out.println(mapBoard.get(i).get("Player"));
-                    JSONObject next = mapBoard.get(i + 1);
-
-                    if ((long) current.get("Score") < (long) next.get("Score")) {
-                        mapBoard.addAfter(current, next);
-                        mapBoard.remove(current);
+                for (int i = 0; i < scores.length - 1; i++) {
+                    long currentScore = scores[i];
+                    String currentPlayer = players[i];
+                    long nextScore = scores[i + 1];
+                    String nextPlayer = players[i + 1];
+                    if (currentScore < nextScore) {
+                        scores[i] = nextScore;
+                        players[i] = nextPlayer;
+                        scores[i + 1] = currentScore;
+                        players[i + 1] = currentPlayer;
                         end = false;
-                        System.out.println("Success" + i);
                     }
                 }
                 if (end) {
                     break;
                 }
-            }*/
+            }
 
             System.out.println("\n\n\n====================Leaderboard===================\n");
             System.out.println("Map: " + mapName + "\n");
-            for (int i = 0; i < mapBoard.size(); i++) {
-                System.out.println(mapBoard.get(i).toString());
+
+            for (int i = 0; i < scores.length; i++) {
+                if (players[i] != null) {
+                    System.out.println((i + 1) + "º ⮊ " + players[i] + ": " + scores[i] + " points");
+                }
             }
+
             System.out.println("\n==================================================\n\n");
 
         }
+    }
+
+    private static void extendLeaderboardCapacity() {
+        long[] newScores = new long[scores.length + 10];
+        String[] newPlayers = new String[players.length + 10];
+
+        for (int i = 0; i < scores.length; i++) {
+            newScores[i] = scores[i];
+            newPlayers[i] = players[i];
+        }
+
+        scores = newScores;
+        players = newPlayers;
     }
 }

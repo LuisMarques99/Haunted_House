@@ -291,6 +291,7 @@ public class FileManager {
 
     public static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
         JSONParser parser = new JSONParser();
+        leaderBoard.clear();
         try {
             JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("leaderboards.json"));
 

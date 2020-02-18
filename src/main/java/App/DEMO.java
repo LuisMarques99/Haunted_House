@@ -23,9 +23,9 @@ public class DEMO {
             Scanner tec = new Scanner(System.in);
             try {
                 System.out.println("\n\n========== Menu ==========");
-                System.out.println(" 1- Play game");
-                System.out.println(" 2- Leaderboards");
-                System.out.println(" 3- Exit");
+                System.out.println(" 1 - Play game");
+                System.out.println(" 2 - Leaderboards");
+                System.out.println(" 3 - Exit");
                 System.out.println("==========================");
                 opt = tec.nextInt();
             } catch (java.util.InputMismatchException e) {
@@ -52,7 +52,12 @@ public class DEMO {
                     String res;
                     System.out.println("What is the map you wish to search?");
                     res = tec2.nextLine();
-                    Menu.searchLeaderBoards(res);
+                    try {
+                        Menu.searchLeaderBoards(res);
+                    } catch (FileNotFoundException e) {
+                        System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                        break;
+                    }
                     break;
                 case 3:
                     Menu.copyright();
