@@ -60,7 +60,6 @@ public class FileManager {
      */
     public static JSONFile readJsonFile(String filePath) throws IOException, ParseException {
         final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
 
         network = new Network<>();
@@ -156,33 +155,41 @@ public class FileManager {
         ArrayUnorderedList<Room> tempVertices = new ArrayUnorderedList<>();
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_RED = "\u001B[31m";
+        int count = 0;
 
         //Get all the rooms that contains no ghost
         for(int a = 0 ; a < vertices.size() ; a++){
             if (vertices.get(a).getGhost() == 0 && vertices.get(a).getName() != "entrada" && vertices.get(a).getName() != "exterior"){
                 tempVertices.addToRear(vertices.get(a));
+                count++;
             }
         }
-        //Randomly select a room that contains no ghost
-        int max = tempVertices.size();
-        Random rand = new Random();
-        int n = rand.nextInt(max);
-
-        //Get the max damage from a ghost in the present map
-        long top = 0;
-        for (int a = 0 ; a < vertices.size() ; a++){
-            if(top < vertices.get(a).getGhost()){
-                top = vertices.get(a).getGhost();
-            }
+        if(count == 0){
+            System.out.println(ANSI_RED + ">> Impossible to generate shield!" + ANSI_RESET + "\n");
         }
+        else{
+            //Randomly select a room that contains no ghost
+            int max = tempVertices.size();
+            Random rand = new Random();
+            int n = rand.nextInt(max);
 
-        //Randomly generate a defense value
-        int shield = rand.nextInt((int) top - 1) + 1;
+            //Get the max damage from a ghost in the present map
+            long top = 0;
+            for (int a = 0 ; a < vertices.size() ; a++){
+                if(top < vertices.get(a).getGhost()){
+                    top = vertices.get(a).getGhost();
+                }
+            }
 
-        for (int a = 0 ; a < vertices.size() ; a++){
-            if (vertices.get(a).getName().equals(tempVertices.get(n).getName())){
-                vertices.get(a).setGhost(shield * -1);
-                System.out.println(ANSI_GREEN + ">> Protection shield generated successfully!" + ANSI_RESET + "\n");
+            //Randomly generate a defense value
+            int shield = rand.nextInt((int) top - 1) + 1;
+
+            for (int a = 0 ; a < vertices.size() ; a++){
+                if (vertices.get(a).getName().equals(tempVertices.get(n).getName())){
+                    vertices.get(a).setGhost(shield * -1);
+                    System.out.println(ANSI_GREEN + ">> Protection shield generated successfully!" + ANSI_RESET + "\n");
+                }
             }
         }
     }
