@@ -3,14 +3,13 @@ package App;
 import Entities.JSONFile;
 import Entities.User;
 import Exceptions.FileNotFoundException;
-import MyCollection.Exceptions.ElementNotFoundException;
-import MyCollection.Exceptions.EmptyCollectionException;
 import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -28,22 +27,24 @@ public class Menu {
     /**
      * Defines the user name to be used in the game
      */
-    public static void userDefinition() {
+    public static void userDefinition() throws MyCollection.Exceptions.InputMismatchException {
         user = new User();
-
         Scanner scanner = new Scanner(System.in);
-        int option;
+        int option = 1;
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
 
         do {
-            System.out.println("\n================= " + ANSI_GREEN + "User Selection" + ANSI_RESET + " =================");
-            System.out.println("  1 - Enter your username");
-            System.out.println("  2 - Play as a guest");
-            System.out.println("==================================================");
-            System.out.println("\n↓ Insert your option ↓");
-
-            option = scanner.nextInt();
+            try {
+                System.out.println("\n================= " + ANSI_GREEN + "User Selection" + ANSI_RESET + " =================");
+                System.out.println("  1 - Enter your username");
+                System.out.println("  2 - Play as a guest");
+                System.out.println("==================================================");
+                System.out.println("\n↓ Insert your option ↓");
+                option = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                throw new MyCollection.Exceptions.InputMismatchException("Invalid input.");
+            }
 
             if (option == 1) {
                 System.out.println("\n\n↓ Insert your username ↓");
@@ -56,7 +57,6 @@ public class Menu {
             } else {
                 System.err.println("Unfortunately, that feature is not available yet! We are very sorry! :(");
             }
-
         } while (option != 0);
     }
 
@@ -66,7 +66,7 @@ public class Menu {
      * @throws ParseException
      * @throws IOException
      */
-    public static void loadFile() throws ParseException, IOException {
+    public static void loadFile() throws ParseException, IOException, FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
         String filePath;
         final String ANSI_RESET = "\u001B[0m";

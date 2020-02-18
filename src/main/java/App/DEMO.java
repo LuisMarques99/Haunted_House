@@ -1,9 +1,7 @@
 package App;
 
 import Exceptions.FileNotFoundException;
-import MyCollection.Exceptions.ElementNotComparableException;
-import MyCollection.Exceptions.ElementNotFoundException;
-import MyCollection.Exceptions.EmptyCollectionException;
+import MyCollection.Exceptions.InputMismatchException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -15,24 +13,38 @@ import java.util.Scanner;
  * </h3>
  */
 public class DEMO {
-    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException, ElementNotComparableException, ElementNotFoundException, EmptyCollectionException {
-        Scanner tec = new Scanner(System.in);
-        int opt;
+
+    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
+        int opt = 0;
 
-        do{
-            System.out.println("\n\n========== Menu ==========");
-            System.out.println(" 1- Play game");
-            System.out.println(" 2- Leaderboards");
-            System.out.println(" 3- Exit");
-            System.out.println("==========================");
-            opt = tec.nextInt();
+        do {
+            Scanner tec = new Scanner(System.in);
+            try {
+                System.out.println("\n\n========== Menu ==========");
+                System.out.println(" 1- Play game");
+                System.out.println(" 2- Leaderboards");
+                System.out.println(" 3- Exit");
+                System.out.println("==========================");
+                opt = tec.nextInt();
+            } catch (java.util.InputMismatchException e) {
+            }
 
-            switch (opt){
+            switch (opt) {
                 case 1:
-                    Menu.userDefinition();
-                    Menu.loadFile();
+                    try {
+                        Menu.userDefinition();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input!");
+                        break;
+                    }
+                    try {
+                        Menu.loadFile();
+                    } catch (FileNotFoundException e) {
+                        System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                        break;
+                    }
                     Menu.start();
                     break;
                 case 2:
