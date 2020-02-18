@@ -160,10 +160,9 @@ public class FileManager {
                 res += tempRoom.getGhost();
             }
 
-            if(jsonFile.getPoints() < res){
+            if (jsonFile.getPoints() < res) {
                 throw new InvalidFileException("\n>> This is a invalid map!\n");
-            }
-            else{
+            } else {
                 System.out.println(network.toString());
                 jsonFile.setMap(network);
                 System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
@@ -364,13 +363,14 @@ public class FileManager {
      *
      * @param division the division where the player wants to go
      * @param div      the current position of the player
-     * @return the new current position of the player in the map
+     * @return Room the new current position of the player in the map
      */
     public static Room chooseDivision(String division, Room div, User user) {
         Iterator<String> iterator = div.getConnections().iterator();
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BLUE = "\u001B[34m";
+        final String ANSI_BOLD = "\u001B[1m";
 
         int count = 0;
         while (iterator.hasNext()) {
@@ -379,7 +379,8 @@ public class FileManager {
                 div = searchDivision(lig);
                 count++;
                 if (div.getGhost() > 0) {
-                    System.out.println(ANSI_RED + "\nOh no! A ghost just appeared... RUN!" + ANSI_RESET);
+                    System.out.println(ANSI_RED + "\nOh no! A ghost just appeared... You lost " + ANSI_BOLD +
+                            div.getGhost() + ANSI_RESET + ANSI_RED + " points!" + ANSI_RESET);
                     long hit = div.getGhost();
                     long life = user.getLifePoints() - hit;
                     user.setLifePoints(life);

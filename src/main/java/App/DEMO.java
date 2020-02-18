@@ -18,15 +18,20 @@ public class DEMO {
     public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
+        final String ANSI_BOLD = "\u001B[1m";
+
         int opt = 0;
 
         do {
+            System.out.println("\n\n ⤷ " + ANSI_BOLD + "\uD83D\uDC7B" + " Haunted House " + "\uD83D\uDC7B"
+                    + ANSI_RESET + " ⤶");
+
             Scanner tec = new Scanner(System.in);
             try {
-                System.out.println("\n\n========== Menu ==========");
-                System.out.println(" 1 - Play game");
-                System.out.println(" 2 - Leaderboards");
-                System.out.println(" 3 - Exit");
+                System.out.println("\n========== Menu ==========");
+                System.out.println(" ⓵ - Play game");
+                System.out.println(" ➁ - Leaderboards");
+                System.out.println(" ➂ - Exit");
                 System.out.println("==========================");
                 opt = tec.nextInt();
             } catch (java.util.InputMismatchException e) {
