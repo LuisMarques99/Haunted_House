@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
@@ -66,7 +67,7 @@ public class Menu {
      * @throws ParseException
      * @throws IOException
      */
-    public static void loadFile() throws ParseException, IOException {
+    public static void loadFile() throws ParseException, IOException, FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
         String filePath;
         final String ANSI_RESET = "\u001B[0m";
@@ -78,6 +79,7 @@ public class Menu {
         System.out.println("\n↓ Insert the file path ↓");
         filePath = scanner.nextLine();
         jsonFile = FileManager.readJsonFile(filePath);
+        start();
     }
 
     public static void start() throws IOException, ParseException, FileNotFoundException {

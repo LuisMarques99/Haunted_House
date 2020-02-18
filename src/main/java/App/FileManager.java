@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,90 +64,94 @@ public class FileManager {
      * @throws IOException
      * @throws ParseException
      */
-    public static JSONFile readJsonFile(String filePath) throws IOException, ParseException {
+    public static JSONFile readJsonFile(String filePath) throws IOException, ParseException, FileNotFoundException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
 
-        network = new Network<>();
-        vertices = new ArrayUnorderedList<>();
+        try{
+            network = new Network<>();
+            vertices = new ArrayUnorderedList<>();
 
-        JSONParser parser = new JSONParser();
-        JSONObject jsonobj = (JSONObject) parser.parse(new FileReader(filePath));
+            JSONParser parser = new JSONParser();
+            JSONObject jsonobj = (JSONObject) parser.parse(new FileReader(filePath));
 
-        nome = (String) jsonobj.get("nome");
-        pontos = ((Long) jsonobj.get("pontos")).intValue();
-        jsonFile.setName(nome);
-        jsonFile.setPoints(pontos);
+            nome = (String) jsonobj.get("nome");
+            pontos = ((Long) jsonobj.get("pontos")).intValue();
+            jsonFile.setName(nome);
+            jsonFile.setPoints(pontos);
 
-        JSONArray array = (JSONArray) jsonobj.get("mapa");
+            JSONArray array = (JSONArray) jsonobj.get("mapa");
 
-        for (Object o : array) {
-            ArrayUnorderedList<String> ligacoes = new ArrayUnorderedList<>();
-            JSONObject obj = (JSONObject) o;
+            for (Object o : array) {
+                ArrayUnorderedList<String> ligacoes = new ArrayUnorderedList<>();
+                JSONObject obj = (JSONObject) o;
 
-            String name = (String) obj.get("aposento");
-            int ghostPoints = ((Long) obj.get("fantasma")).intValue();
-            JSONArray arr = (JSONArray) obj.get("ligacoes");
+                String name = (String) obj.get("aposento");
+                int ghostPoints = ((Long) obj.get("fantasma")).intValue();
+                JSONArray arr = (JSONArray) obj.get("ligacoes");
 
-            for (int i = 0; i < arr.size(); i++) {
-                ligacoes.addToRear((String) arr.get(i));
+                for (int i = 0; i < arr.size(); i++) {
+                    ligacoes.addToRear((String) arr.get(i));
+                }
+                Room d = new Room(name, ghostPoints, ligacoes);
+                vertices.addToRear(d);
             }
-            Room d = new Room(name, ghostPoints, ligacoes);
-            vertices.addToRear(d);
-        }
 
-        ArrayUnorderedList<String> ligacaoEnt = new ArrayUnorderedList<>();
-        ArrayUnorderedList<String> ligacaoSai = new ArrayUnorderedList<>();
-        boolean found = false;
+            ArrayUnorderedList<String> ligacaoEnt = new ArrayUnorderedList<>();
+            ArrayUnorderedList<String> ligacaoSai = new ArrayUnorderedList<>();
+            boolean found = false;
 
-        Iterator<Room> start = vertices.iterator();
+            Iterator<Room> start = vertices.iterator();
 
-        while (!found && start.hasNext()) {
-            Room division = start.next();
-            Iterator<String> lig = division.getConnections().iterator();
+            while (!found && start.hasNext()) {
+                Room division = start.next();
+                Iterator<String> lig = division.getConnections().iterator();
 
-            while (!found && lig.hasNext()) {
-                String ligacao = lig.next();
+                while (!found && lig.hasNext()) {
+                    String ligacao = lig.next();
 
-                if (ligacao.equals("entrada")) {
-                    ligacaoEnt.addToRear(division.getName());
-                    found = true;
+                    if (ligacao.equals("entrada")) {
+                        ligacaoEnt.addToRear(division.getName());
+                        found = true;
+                    }
                 }
             }
-        }
 
-        Room entrada = new Room("entrada", 0, ligacaoEnt);
-        Room exterior = new Room("exterior", 0, ligacaoSai);
+            Room entrada = new Room("entrada", 0, ligacaoEnt);
+            Room exterior = new Room("exterior", 0, ligacaoSai);
 
-        vertices.addToRear(exterior);
-        vertices.addToFront(entrada);
+            vertices.addToRear(exterior);
+            vertices.addToFront(entrada);
 
-        Iterator<Room> it = vertices.iterator();
+            Iterator<Room> it = vertices.iterator();
 
-        while (it.hasNext()) {
-            Room div = it.next();
-            network.addVertex(div);
-        }
+            while (it.hasNext()) {
+                Room div = it.next();
+                network.addVertex(div);
+            }
 
-        Iterator<Room> iterator = vertices.iterator();
+            Iterator<Room> iterator = vertices.iterator();
 
-        while (iterator.hasNext()) {
-            Room div = iterator.next();
-            Iterator<String> iterator1 = div.getConnections().iterator();
+            while (iterator.hasNext()) {
+                Room div = iterator.next();
+                Iterator<String> iterator1 = div.getConnections().iterator();
 
-            while (iterator1.hasNext()) {
-                String lig = iterator1.next();
+                while (iterator1.hasNext()) {
+                    String lig = iterator1.next();
 
-                if (!lig.equals("entrada")) {
-                    network.addEdge(searchDivision(div.getName()), searchDivision(lig), searchDivision(lig).getGhost());
+                    if (!lig.equals("entrada")) {
+                        network.addEdge(searchDivision(div.getName()), searchDivision(lig), searchDivision(lig).getGhost());
+                    }
                 }
             }
+            System.out.println(network.toString());
+            jsonFile.setMap(network);
+            System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
+            generateShield(vertices);
+            return jsonFile;
+        } catch (java.io.FileNotFoundException e){
+            throw new FileNotFoundException("File not found!");
         }
-        System.out.println(network.toString());
-        jsonFile.setMap(network);
-        System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
-        generateShield(vertices);
-        return jsonFile;
     }
 
     /**

@@ -29,8 +29,11 @@ public class DEMO {
             switch (opt){
                 case 1:
                     Menu.userDefinition();
-                    Menu.loadFile();
-                    Menu.start();
+                    try{
+                        Menu.loadFile();
+                    } catch (FileNotFoundException e){
+                        System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                    }
                     break;
                 case 2:
                     Scanner tec2 = new Scanner(System.in);
