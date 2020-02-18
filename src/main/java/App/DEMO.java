@@ -1,6 +1,7 @@
 package App;
 
 import Exceptions.FileNotFoundException;
+import MyCollection.Exceptions.InputMismatchException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -13,27 +14,36 @@ import java.util.Scanner;
  */
 public class DEMO {
     public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
-        Scanner tec = new Scanner(System.in);
-        int opt;
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
+        int opt = 0;
 
         do{
-            System.out.println("\n\n========== Menu ==========");
-            System.out.println(" 1- Play game");
-            System.out.println(" 2- Leaderboards");
-            System.out.println(" 3- Exit");
-            System.out.println("==========================");
-            opt = tec.nextInt();
+            Scanner tec = new Scanner(System.in);
+            try{
+                System.out.println("\n\n========== Menu ==========");
+                System.out.println(" 1- Play game");
+                System.out.println(" 2- Leaderboards");
+                System.out.println(" 3- Exit");
+                System.out.println("==========================");
+                opt = tec.nextInt();
+            } catch (java.util.InputMismatchException e){}
 
             switch (opt){
                 case 1:
-                    Menu.userDefinition();
+                    try {
+                        Menu.userDefinition();
+                    } catch (InputMismatchException e){
+                        System.out.println("Invalid input!");
+                        break;
+                    }
                     try{
                         Menu.loadFile();
                     } catch (FileNotFoundException e){
                         System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                        break;
                     }
+                    Menu.start();
                     break;
                 case 2:
                     Scanner tec2 = new Scanner(System.in);
