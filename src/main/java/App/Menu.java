@@ -3,6 +3,7 @@ package App;
 import Entities.JSONFile;
 import Entities.User;
 import Exceptions.FileNotFoundException;
+import Exceptions.InvalidFileException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -75,7 +76,7 @@ public class Menu {
      * @throws ParseException
      * @throws IOException
      */
-    public static void loadFile() throws ParseException, IOException, FileNotFoundException {
+    public static void loadFile() throws ParseException, IOException, FileNotFoundException, InvalidFileException {
         Scanner scanner = new Scanner(System.in);
         String filePath;
         final String ANSI_RESET = "\u001B[0m";

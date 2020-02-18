@@ -1,6 +1,6 @@
 {
 	"nome": "sexta-feira 13",
-	"pontos": 100,
+	"pontos": 19,
 	"mapa": [
 		{"aposento": "hall", "fantasma": 0, "ligacoes": ["entrada", "cozinha", "escritorio"]},
 		{"aposento": "cozinha", "fantasma": 15, "ligacoes": ["hall", "sala de jantar"]},

@@ -1,6 +1,7 @@
 package App;
 
 import Exceptions.FileNotFoundException;
+import Exceptions.InvalidFileException;
 import MyCollection.Exceptions.InputMismatchException;
 import org.json.simple.parser.ParseException;
 
@@ -42,7 +43,10 @@ public class DEMO {
                     try {
                         Menu.loadFile();
                     } catch (FileNotFoundException e) {
-                        System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "\n>> File not found" + ANSI_RESET);
+                        break;
+                    } catch (InvalidFileException e) {
+                        System.out.println(ANSI_RED + "\n>> This map is invalid!" + ANSI_RESET);
                         break;
                     }
                     Menu.start();

@@ -4,6 +4,7 @@ import Entities.JSONFile;
 import Entities.Room;
 import Entities.User;
 import Exceptions.FileNotFoundException;
+import Exceptions.InvalidFileException;
 import MyCollection.Exceptions.EmptyCollectionException;
 import MyCollection.Graph.Network;
 import MyCollection.List.ArrayUnorderedList;
@@ -70,7 +71,7 @@ public class FileManager {
      * @throws IOException
      * @throws ParseException
      */
-    public static JSONFile readJsonFile(String filePath) throws IOException, ParseException, FileNotFoundException {
+    public static JSONFile readJsonFile(String filePath) throws IOException, ParseException, FileNotFoundException, InvalidFileException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
         final String ANSI_RED = "\u001B[31m";
@@ -160,7 +161,7 @@ public class FileManager {
             }
 
             if(jsonFile.getPoints() < res){
-                System.out.println(ANSI_RED + "\n>> This is a invalid map!" + ANSI_RESET);
+                throw new InvalidFileException("\n>> This is a invalid map!\n");
             }
             else{
                 System.out.println(network.toString());
