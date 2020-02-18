@@ -4,6 +4,7 @@ import Entities.JSONFile;
 import Entities.Room;
 import Entities.User;
 import Exceptions.FileNotFoundException;
+import MyCollection.Exceptions.EmptyCollectionException;
 import MyCollection.Graph.Network;
 import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
@@ -72,20 +73,21 @@ public class FileManager {
     public static JSONFile readJsonFile(String filePath) throws IOException, ParseException, FileNotFoundException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_RED = "\u001B[31m";
 
-        try{
+        try {
             network = new Network<>();
             vertices = new ArrayUnorderedList<>();
 
             JSONParser parser = new JSONParser();
-            JSONObject jsonobj = (JSONObject) parser.parse(new FileReader(filePath));
+            JSONObject jsonObj = (JSONObject) parser.parse(new FileReader(filePath));
 
-            nome = (String) jsonobj.get("nome");
-            pontos = ((Long) jsonobj.get("pontos")).intValue();
+            nome = (String) jsonObj.get("nome");
+            pontos = ((Long) jsonObj.get("pontos")).intValue();
             jsonFile.setName(nome);
             jsonFile.setPoints(pontos);
 
-            JSONArray array = (JSONArray) jsonobj.get("mapa");
+            JSONArray array = (JSONArray) jsonObj.get("mapa");
 
             for (Object o : array) {
                 ArrayUnorderedList<String> ligacoes = new ArrayUnorderedList<>();
@@ -149,12 +151,25 @@ public class FileManager {
                     }
                 }
             }
-            System.out.println(network.toString());
-            jsonFile.setMap(network);
-            System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
-            generateShield(vertices);
+
+            Iterator shortestIterator = network.iteratorShortestPath(entrada, exterior);
+            long res = 0;
+            while (shortestIterator.hasNext()) {
+                Room tempRoom = (Room) shortestIterator.next();
+                res += tempRoom.getGhost();
+            }
+
+            if(jsonFile.getPoints() < res){
+                System.out.println(ANSI_RED + "\n>> This is a invalid map!" + ANSI_RESET);
+            }
+            else{
+                System.out.println(network.toString());
+                jsonFile.setMap(network);
+                System.out.println(ANSI_GREEN + ">> Map successfully loaded to the network!" + ANSI_RESET);
+                generateShield(vertices);
+            }
             return jsonFile;
-        } catch (java.io.FileNotFoundException e){
+        } catch (java.io.FileNotFoundException | EmptyCollectionException e) {
             throw new FileNotFoundException("File not found!");
         }
     }
