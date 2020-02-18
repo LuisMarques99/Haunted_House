@@ -3,14 +3,14 @@ package App;
 import Entities.JSONFile;
 import Entities.User;
 import Exceptions.FileNotFoundException;
+import MyCollection.Exceptions.ElementNotFoundException;
+import MyCollection.Exceptions.EmptyCollectionException;
+import MyCollection.List.ArrayUnorderedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Menu {
@@ -37,7 +37,7 @@ public class Menu {
         final String ANSI_GREEN = "\u001B[32m";
 
         do {
-            System.out.println("\n================= " + ANSI_GREEN + "User Selection" +  ANSI_RESET + " =================");
+            System.out.println("\n================= " + ANSI_GREEN + "User Selection" + ANSI_RESET + " =================");
             System.out.println("  1 - Enter your username");
             System.out.println("  2 - Play as a guest");
             System.out.println("==================================================");
@@ -103,9 +103,58 @@ public class Menu {
 
     /**
      * Search the leaderboards from a given map
+     *
      * @param mapName the name of the map to be searched
      */
-    public static void searchLeaderBoards(String mapName) {
-        //falta fazer isto
+    public static void searchLeaderBoards(String mapName) throws ParseException, FileNotFoundException, IOException {
+        FileManager.readExistingLeaderBoard();
+        JSONArray leaderBoard = FileManager.getLeaderBoard();
+        ArrayUnorderedList<JSONObject> mapBoard = new ArrayUnorderedList<>();
+        int count = 0;
+
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_RESET = "\u001B[0m";
+
+        for (int i = 0; i < leaderBoard.size(); i++) {
+            JSONObject jsonObj = (JSONObject) leaderBoard.get(i);
+            JSONObject details = new JSONObject();
+
+            if (jsonObj.get("Map").equals(mapName)) {
+                details.put("Score", jsonObj.get("Life points"));
+                details.put("Player", jsonObj.get("Player name"));
+                mapBoard.addToRear(details);
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println(ANSI_RED + "This map has no leaderboard or does not exist!" + ANSI_RESET);
+        } else {
+            /*while (true) {
+                boolean end = true;
+                for (int i = 0; i < mapBoard.size() - 1; i++) {
+                    JSONObject current = mapBoard.get(i);
+                    System.out.println(mapBoard.get(i).get("Player"));
+                    JSONObject next = mapBoard.get(i + 1);
+
+                    if ((long) current.get("Score") < (long) next.get("Score")) {
+                        mapBoard.addAfter(current, next);
+                        mapBoard.remove(current);
+                        end = false;
+                        System.out.println("Success" + i);
+                    }
+                }
+                if (end) {
+                    break;
+                }
+            }*/
+
+            System.out.println("\n\n\n====================Leaderboard===================\n");
+            System.out.println("Map: " + mapName + "\n");
+            for (int i = 0; i < mapBoard.size(); i++) {
+                System.out.println(mapBoard.get(i).toString());
+            }
+            System.out.println("\n==================================================\n\n");
+
+        }
     }
 }

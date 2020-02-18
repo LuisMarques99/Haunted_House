@@ -1,6 +1,9 @@
 package App;
 
 import Exceptions.FileNotFoundException;
+import MyCollection.Exceptions.ElementNotComparableException;
+import MyCollection.Exceptions.ElementNotFoundException;
+import MyCollection.Exceptions.EmptyCollectionException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -12,7 +15,7 @@ import java.util.Scanner;
  * </h3>
  */
 public class DEMO {
-    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
+    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException, ElementNotComparableException, ElementNotFoundException, EmptyCollectionException {
         Scanner tec = new Scanner(System.in);
         int opt;
         final String ANSI_RESET = "\u001B[0m";

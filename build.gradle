@@ -36,10 +36,10 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'Haunted_House.App'
-}
+    mainClassName = 'DEMO'
 
-test {
-    // Use junit platform for unit tests
-    useJUnitPlatform()
+    test {
+        // Use junit platform for unit tests
+        useJUnitPlatform()
+    }
 }

@@ -51,9 +51,14 @@ public class FileManager {
      */
     private static ArrayUnorderedList<Room> vertices;
 
-    //private static JSONFile leaderBoardFile = new JSONFile();
-
+    /**
+     * JSONArray reference to the leaderBoard array
+     */
     private static JSONArray leaderBoard = new JSONArray();
+
+    public static JSONArray getLeaderBoard() {
+        return leaderBoard;
+    }
 
     /**
      * Reads the JSON file that contains the map information
@@ -279,7 +284,7 @@ public class FileManager {
         }
     }
 
-    private static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
+    public static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
         JSONParser parser = new JSONParser();
         try {
             JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("leaderboards.json"));
