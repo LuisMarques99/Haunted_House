@@ -95,7 +95,9 @@ public class JSONFile {
      *
      * @param map ArrayUnorderedList map (list of rooms)
      */
-    public void setMap(Network<Room> map) { this.map = map; }
+    public void setMap(Network<Room> map) {
+        this.map = map;
+    }
 
     @Override
     public String toString() {

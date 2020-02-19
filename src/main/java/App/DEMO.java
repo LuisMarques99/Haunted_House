@@ -12,6 +12,9 @@ import java.util.Scanner;
  * <h3>
  * <strong>Class that runs the project</strong>
  * </h3>
+ *
+ * @author Francisco Pinto
+ * @author Luis Marques
  */
 public class DEMO {
 
@@ -23,16 +26,18 @@ public class DEMO {
         int opt = 0;
 
         do {
-            System.out.println(ANSI_BOLD + "\n\n\n ⤷ 👻 " + ANSI_RED + "Haunted House"
-                    + ANSI_RESET + ANSI_BOLD + " 👻 ⤶" + ANSI_RESET);
+            System.out.println(ANSI_BOLD + "\n\n\n             ⤷ 👻" + ANSI_RED + " Haunted House " + ANSI_RESET
+                    + ANSI_BOLD + "👻 ⤶" + ANSI_RESET);
 
             Scanner tec = new Scanner(System.in);
             try {
-                System.out.println("\n========== Menu ==========");
-                System.out.println(" ➊ ➜ Play game");
-                System.out.println(" ➋ ➜ Leaderboards");
-                System.out.println(" ➌ ➜ Exit");
-                System.out.println("==========================");
+                System.out.println("\n\n====================== Menu ======================\n");
+                System.out.println("  ➊ ➜ Play game");
+                System.out.println("  ➋ ➜ Leaderboards");
+                System.out.println("  ➌ ➜ Instructions");
+                System.out.println("  ➍ ➜ Exit");
+                System.out.println("\n==================================================");
+                System.out.println("\n↓ Insert your option ↓");
                 opt = tec.nextInt();
             } catch (java.util.InputMismatchException e) {
             }
@@ -42,7 +47,7 @@ public class DEMO {
                     try {
                         Menu.userDefinition();
                     } catch (InputMismatchException e) {
-                        System.out.println("Invalid input!");
+                        System.out.println("\nInvalid input!");
                         break;
                     }
                     try {
@@ -59,21 +64,24 @@ public class DEMO {
                 case 2:
                     Scanner tec2 = new Scanner(System.in);
                     String res;
-                    System.out.println("What is the map you wish to search?");
+                    System.out.println("\nWhat is the map you wish to search?");
                     res = tec2.nextLine();
                     try {
                         Menu.searchLeaderBoards(res);
                     } catch (FileNotFoundException e) {
-                        System.out.println(ANSI_RED + "File not found" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "\nFile not found" + ANSI_RESET);
                         break;
                     }
                     break;
                 case 3:
+                    Menu.showInstructions();
+                    break;
+                case 4:
                     Menu.copyright();
                     break;
                 default:
                     System.out.println(ANSI_RED + "\nChoose a valid option." + ANSI_RESET);
             }
-        } while (opt != 3);
+        } while (opt != 4);
     }
 }

@@ -25,6 +25,9 @@ import java.util.Scanner;
  * <strong>Class that represents the structure of a {@link FileManager File Manager} used to manage the JSON file that
  * contains the map information</strong>
  * </h3>
+ *
+ * @author Francisco Pinto
+ * @author Luis Marques
  */
 public class FileManager {
 
@@ -50,6 +53,7 @@ public class FileManager {
 
     /**
      * Method responsible to return the vertices structure
+     *
      * @return the vertices
      */
     public static ArrayUnorderedList<Room> getVertices() {
@@ -233,34 +237,6 @@ public class FileManager {
     }
 
     /**
-     * Method responsible to return a division given a name as parameter
-     *
-     * @param divisao Division name
-     * @return A division
-     */
-    private static Room searchDivision(String divisao) {
-        ArrayUnorderedList divisoes = vertices;
-        Room div = null;
-        boolean found = false;
-        int count = 0;
-
-        Iterator<Room> iterator = divisoes.iterator();
-
-        while (!found && iterator.hasNext()) {
-            div = iterator.next();
-
-            if ((div.getName()).equals(divisao)) {
-                found = true;
-                count++;
-            }
-        }
-        if (count == 0) {
-            System.out.println("Division not found!");
-        }
-        return div;
-    }
-
-    /**
      * Method responsible for the string representation of all the player options in a given division
      *
      * @param current_div the player´s current division placement
@@ -280,7 +256,7 @@ public class FileManager {
      *
      * @param user the user playing the game
      */
-    public static void playGame(User user) throws IOException, ParseException, FileNotFoundException {
+    public static void playGame(User user) throws IOException, ParseException {
         Room current_div = searchDivision("entrada");
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
@@ -288,13 +264,13 @@ public class FileManager {
         final String ANSI_BLUE = "\u001B[34m";
 
         while (current_div != searchDivision("exterior") && user.getLifePoints() > 0) {
-            System.out.println("=====================================================");
+            System.out.println("\n\n\n=====================================================");
             System.out.println("  >> Life points: " + ANSI_RED + user.getLifePoints() + ANSI_RESET);
             System.out.println("  >> Current position: " + ANSI_BLUE + current_div.getName() + ANSI_RESET);
-            System.out.println("=====================================================\n");
+            System.out.println("=====================================================");
             Scanner scanner = new Scanner((System.in));
             String option;
-            System.out.println("Choose your move, but be careful, there are ghosts nearby!");
+            System.out.println("\nChoose your move, but be careful, there are ghosts nearby!");
             showOptions(current_div);
             option = scanner.nextLine();
             current_div = chooseDivision(option, current_div, user);
@@ -335,6 +311,76 @@ public class FileManager {
     }
 
     /**
+     * Method responsible to change the player current position given the current position of the player {@param div}
+     * and the division (String) where the player chooses to go next {@param division} and the current user playing the game {@param user}
+     *
+     * @param division the division where the player wants to go
+     * @param div      the current position of the player
+     * @return Room the new current position of the player in the map
+     */
+    public static Room chooseDivision(String division, Room div, User user) {
+        Iterator<String> iterator = div.getConnections().iterator();
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_BLUE = "\u001B[34m";
+        final String ANSI_BOLD = "\u001B[1m";
+
+        int count = 0;
+        while (iterator.hasNext()) {
+            String lig = iterator.next();
+            if (division.equals(lig)) {
+                div = searchDivision(lig);
+                count++;
+                if (div.getGhost() > 0) {
+                    System.out.println(ANSI_RED + "\n\nOh no! A ghost just appeared... You lost " + ANSI_BOLD +
+                            div.getGhost() + ANSI_RESET + ANSI_RED + " points!" + ANSI_RESET);
+                    long hit = div.getGhost();
+                    long life = user.getLifePoints() - hit;
+                    user.setLifePoints(life);
+                } else if (div.getGhost() < 0) {
+                    long res = div.getGhost() * -1;
+                    long up = user.getLifePoints() + res;
+                    user.setLifePoints(up);
+                    div.setGhost(0);
+                    System.out.println(ANSI_BLUE + "\n\nYou got a protection shield! " + res + " life points added." + ANSI_RESET);
+                }
+            }
+        }
+        if (count == 0) {
+            System.out.println("\n\nInvalid division choice...");
+        }
+        return div;
+    }
+
+    /**
+     * Method responsible to return a division given a name as parameter
+     *
+     * @param divisao Division name
+     * @return A division
+     */
+    private static Room searchDivision(String divisao) {
+        ArrayUnorderedList divisoes = vertices;
+        Room div = null;
+        boolean found = false;
+        int count = 0;
+
+        Iterator<Room> iterator = divisoes.iterator();
+
+        while (!found && iterator.hasNext()) {
+            div = iterator.next();
+
+            if ((div.getName()).equals(divisao)) {
+                found = true;
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("Division not found!");
+        }
+        return div;
+    }
+
+    /**
      * Method responsible to store data about games played
      *
      * @param name   the username from the user who played the game
@@ -363,48 +409,5 @@ public class FileManager {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * Method responsible to change the player current position given the current position of the player {@param div}
-     * and the division (String) where the player chooses to go next {@param division} and the current user playing the game {@param user}
-     *
-     * @param division the division where the player wants to go
-     * @param div      the current position of the player
-     * @return Room the new current position of the player in the map
-     */
-    public static Room chooseDivision(String division, Room div, User user) {
-        Iterator<String> iterator = div.getConnections().iterator();
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_BLUE = "\u001B[34m";
-        final String ANSI_BOLD = "\u001B[1m";
-
-        int count = 0;
-        while (iterator.hasNext()) {
-            String lig = iterator.next();
-            if (division.equals(lig)) {
-                div = searchDivision(lig);
-                count++;
-                if (div.getGhost() > 0) {
-                    System.out.println(ANSI_RED + "\nOh no! A ghost just appeared... You lost " + ANSI_BOLD +
-                            div.getGhost() + ANSI_RESET + ANSI_RED + " points!" + ANSI_RESET);
-                    long hit = div.getGhost();
-                    long life = user.getLifePoints() - hit;
-                    user.setLifePoints(life);
-                    System.out.println("\n");
-                } else if (div.getGhost() < 0) {
-                    long res = div.getGhost() * -1;
-                    long up = user.getLifePoints() + res;
-                    user.setLifePoints(up);
-                    div.setGhost(0);
-                    System.out.println("\n" + ANSI_BLUE + "You got a protection shield! " + res + " life points added." + ANSI_RESET + "\n");
-                }
-            }
-        }
-        if (count == 0) {
-            System.out.println("\nInvalid division choice...");
-        }
-        return div;
     }
 }

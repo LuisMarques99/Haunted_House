@@ -12,6 +12,14 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * <h3>
+ * <strong>Class that represents the structure of the {@link Menu Game Menu}</strong>
+ * </h3>
+ *
+ * @author Francisco Pinto
+ * @author Luis Marques
+ */
 public class Menu {
 
     /**
@@ -46,10 +54,11 @@ public class Menu {
 
         do {
             try {
-                System.out.println("\n================= " + ANSI_GREEN + "User Selection" + ANSI_RESET + " =================");
-                System.out.println("  1 - Enter your username");
-                System.out.println("  2 - Play as a guest");
-                System.out.println("==================================================");
+                System.out.println("\n\n=================" + ANSI_GREEN + " User Selection " + ANSI_RESET
+                        + "=================\n");
+                System.out.println("  ➊ ➜ Enter your username");
+                System.out.println("  ➋ ➜ Play as a guest");
+                System.out.println("\n================<==================================");
                 System.out.println("\n↓ Insert your option ↓");
                 option = scanner.nextInt();
             } catch (InputMismatchException e) {
@@ -82,9 +91,10 @@ public class Menu {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_BLUE = "\u001B[34m";
 
-        System.out.println("\n\n====================== " + ANSI_BLUE + "File Loader" + ANSI_RESET + " =======================");
-        System.out.println("  Enter the path to the map (JSON file) you wish to play");
-        System.out.println("==========================================================");
+        System.out.println("\n\n===================" + ANSI_BLUE + " File Loader " + ANSI_RESET
+                + "==================\n");
+        System.out.println("  Enter the path to the map (JSON file) you wish\n  to play");
+        System.out.println("\n==================================================");
         System.out.println("\n↓ Insert the file path ↓");
         filePath = scanner.nextLine();
         jsonFile = FileManager.readJsonFile(filePath);
@@ -92,18 +102,19 @@ public class Menu {
 
     /**
      * Start the game method
+     *
      * @throws IOException
      * @throws ParseException
      * @throws FileNotFoundException
      */
-    public static void start() throws IOException, ParseException, FileNotFoundException {
+    public static void start() throws IOException, ParseException {
         user.setLifePoints(jsonFile.getPoints());
 
-        System.out.println("================== Haunted House =================");
+        System.out.println("\n\n================== Haunted House =================\n");
         System.out.println("  Map: " + jsonFile.getName());
         System.out.println("  Player: " + user.getName());
         System.out.println("  Player life points: " + user.getLifePoints());
-        System.out.println("==================================================\n\n");
+        System.out.println("\n==================================================");
         FileManager.playGame(user);
     }
 
@@ -116,7 +127,8 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n" + ANSI_RED + "Program terminated!" + ANSI_RESET);
         System.out.println("\n\nDone by: ");
-        System.out.println("Luis Marques - 8170485\nFrancisco Pinto - 8170580");
+        System.out.println(" 🠞 Francisco Pinto - 8170580\n 🠞 Luis Marques - 8170485");
+        System.out.println("\n\n\n\n\n");
         scanner.close();
     }
 
@@ -172,7 +184,7 @@ public class Menu {
                 }
             }
 
-            System.out.println("\n\n\n====================Leaderboard===================\n");
+            System.out.println("\n\n=================== Leaderboard ==================\n");
             System.out.println("Map: " + mapName + "\n");
 
             for (int i = 0; i < scores.length; i++) {
@@ -184,6 +196,23 @@ public class Menu {
             System.out.println("\n==================================================\n\n");
 
         }
+    }
+
+    public static void showInstructions(){
+        System.out.println("\n\n================== Instructions ==================\n");
+        System.out.println(" In this game you are placed at the entrance of a");
+        System.out.println(" house, but the problem is that this is a Haunted");
+        System.out.println(" House. You start the game with an amount of life");
+        System.out.println(" points, however, in some rooms there are ghosts");
+        System.out.println(" that can deal damage taking some life points");
+        System.out.println(" from you. The good new is that at a random room");
+        System.out.println(" there is a shield that can heal you with a random");
+        System.out.println(" number of life points from 1 to the highest value");
+        System.out.println(" of damage dealt by a ghost.");
+        System.out.println("\n These are the rules of the game! Your mission");
+        System.out.println(" is to reach the exit without being killed!");
+        System.out.println("\n GOOD LUCK! Trust me, you'll need it! 😉");
+        System.out.println("\n==================================================\n\n");
     }
 
     /**

@@ -5,8 +5,8 @@ package Entities;
  * <strong>Class that represents the structure of a {@link User User}</strong>
  * </h3>
  *
- * @author Luis Marques
  * @author Francisco Pinto
+ * @author Luis Marques
  */
 public class User {
 
@@ -23,7 +23,8 @@ public class User {
     /**
      * Creates an instance of a {@link User user}
      */
-    public User() {}
+    public User() {
+    }
 
     /**
      * Gets the user name

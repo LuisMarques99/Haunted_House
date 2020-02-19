@@ -7,8 +7,8 @@ import MyCollection.List.ArrayUnorderedList;
  * <strong>Class that represents the structure of a {@link Room Room}</strong>
  * </h3>
  *
- * @author Luis Marques
  * @author Francisco Pinto
+ * @author Luis Marques
  */
 public class Room {
     /**
@@ -77,6 +77,7 @@ public class Room {
 
     /**
      * Stirng representation of the connections in each room
+     *
      * @return string representation
      */
     @Override
