@@ -49,6 +49,14 @@ public class FileManager {
     private static Network<Room> network;
 
     /**
+     * Method responsible to return the vertices structure
+     * @return the vertices
+     */
+    public static ArrayUnorderedList<Room> getVertices() {
+        return vertices;
+    }
+
+    /**
      * Map divisions to be stored here
      */
     private static ArrayUnorderedList<Room> vertices;
@@ -180,7 +188,7 @@ public class FileManager {
      *
      * @param vertices the structure that contains the divisions
      */
-    private static void generateShield(ArrayUnorderedList<Room> vertices) {
+    public static boolean generateShield(ArrayUnorderedList<Room> vertices) {
         ArrayUnorderedList<Room> tempVertices = new ArrayUnorderedList<>();
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
@@ -196,6 +204,7 @@ public class FileManager {
         }
         if (count == 0) {
             System.out.println(ANSI_RED + ">> Impossible to generate shield!" + ANSI_RESET + "\n");
+            return false;
         } else {
             //Randomly select a room that contains no ghost
             int max = tempVertices.size();
@@ -219,6 +228,7 @@ public class FileManager {
                     System.out.println(ANSI_GREEN + ">> Protection shield generated successfully!" + ANSI_RESET + "\n");
                 }
             }
+            return true;
         }
     }
 
