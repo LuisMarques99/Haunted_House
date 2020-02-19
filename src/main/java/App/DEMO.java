@@ -23,8 +23,8 @@ public class DEMO {
         int opt = 0;
 
         do {
-            System.out.println(ANSI_BOLD + "\n\n\n ⤷ \uD83D\uDC7B " + ANSI_RED + "Haunted House"
-                    + ANSI_RESET + ANSI_BOLD + " \uD83D\uDC7B ⤶" + ANSI_RESET);
+            System.out.println(ANSI_BOLD + "\n\n\n ⤷ 👻 " + ANSI_RED + "Haunted House"
+                    + ANSI_RESET + ANSI_BOLD + " 👻 ⤶" + ANSI_RESET);
 
             Scanner tec = new Scanner(System.in);
             try {
