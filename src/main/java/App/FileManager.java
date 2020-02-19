@@ -118,14 +118,16 @@ public class FileManager {
             ArrayUnorderedList<String> ligacaoEnt = new ArrayUnorderedList<>();
             ArrayUnorderedList<String> ligacaoSai = new ArrayUnorderedList<>();
             boolean found = false;
+            boolean found2 = false;
 
             Iterator<Room> start = vertices.iterator();
 
+            //Check for an entry point
             while (!found && start.hasNext()) {
                 Room division = start.next();
                 Iterator<String> lig = division.getConnections().iterator();
 
-                while (!found || lig.hasNext()) {
+                while (!found && lig.hasNext()) {
                     String ligacao = lig.next();
 
                     if (ligacao.equals("entrada")) {
@@ -133,8 +135,21 @@ public class FileManager {
                         found = true;
                     }
                 }
-                if(!found){
-                    return jsonFile;
+            }
+
+            Iterator<Room> start2 = vertices.iterator();
+
+            //Check for an exit point
+            while (!found2 && start2.hasNext()) {
+                Room division = start2.next();
+                Iterator<String> lig = division.getConnections().iterator();
+
+                while (!found2 && lig.hasNext()) {
+                    String ligacao = lig.next();
+
+                    if (ligacao.equals("exterior")) {
+                        found2 = true;
+                    }
                 }
             }
 
@@ -173,7 +188,7 @@ public class FileManager {
                 res += tempRoom.getGhost();
             }
 
-            if (jsonFile.getPoints() < res) {
+            if (jsonFile.getPoints() < res || found == false || found2 == false) {
                 throw new InvalidFileException("\n>> This is a invalid map!\n");
             } else {
                 System.out.println(network.toString());
@@ -251,7 +266,7 @@ public class FileManager {
      * @param divisao Division name
      * @return A division
      */
-    private static Room searchDivision(String divisao) {
+    public static Room searchDivision(String divisao) {
         ArrayUnorderedList divisoes = vertices;
         Room div = null;
         boolean found = false;
@@ -269,6 +284,7 @@ public class FileManager {
         }
         if (count == 0) {
             System.out.println("Division not found!");
+            div = null;
         }
         return div;
     }

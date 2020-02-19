@@ -125,7 +125,7 @@ public class Menu {
      *
      * @param mapName the name of the map to be searched
      */
-    public static void searchLeaderBoards(String mapName) throws ParseException, FileNotFoundException, IOException {
+    public static boolean searchLeaderBoards(String mapName) throws ParseException, FileNotFoundException, IOException {
         FileManager.readExistingLeaderBoard();
         JSONArray leaderBoard = FileManager.getLeaderBoard();
         int count = 0;
@@ -151,6 +151,7 @@ public class Menu {
         }
         if (count == 0) {
             System.out.println(ANSI_RED + "This map has no leaderboard or does not exist!" + ANSI_RESET);
+            return false;
         } else {
             while (true) {
                 boolean end = true;
@@ -181,6 +182,7 @@ public class Menu {
                 }
             }
             System.out.println("\n==================================================\n\n");
+            return true;
         }
     }
 
