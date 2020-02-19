@@ -51,13 +51,14 @@ public class Menu {
         int option = 1;
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_BOLD = "\u001B[1m";
 
         do {
             try {
                 System.out.println("\n\n=================" + ANSI_GREEN + " User Selection " + ANSI_RESET
                         + "=================\n");
-                System.out.println("  ➊ ➜ Enter your username");
-                System.out.println("  ➋ ➜ Play as a guest");
+                System.out.println(ANSI_BOLD + "  1" + ANSI_RESET + " ➜ Enter your username");
+                System.out.println(ANSI_BOLD + "  1" + ANSI_RESET + " ➜ Play as a guest");
                 System.out.println("\n================<==================================");
                 System.out.println("\n↓ Insert your option ↓");
                 option = scanner.nextInt();
@@ -198,7 +199,7 @@ public class Menu {
         }
     }
 
-    public static void showInstructions(){
+    public static void showInstructions() {
         System.out.println("\n\n================== Instructions ==================\n");
         System.out.println(" In this game you are placed at the entrance of a");
         System.out.println(" house, but the problem is that this is a Haunted");

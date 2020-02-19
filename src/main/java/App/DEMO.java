@@ -32,10 +32,10 @@ public class DEMO {
             Scanner tec = new Scanner(System.in);
             try {
                 System.out.println("\n\n====================== Menu ======================\n");
-                System.out.println("  ➊ ➜ Play game");
-                System.out.println("  ➋ ➜ Leaderboards");
-                System.out.println("  ➌ ➜ Instructions");
-                System.out.println("  ➍❹ ➜ Exit");
+                System.out.println(ANSI_BOLD + "  1" + ANSI_RESET + " ➜ Play game");
+                System.out.println(ANSI_BOLD + "  2" + ANSI_RESET + " ➜ Leaderboards");
+                System.out.println(ANSI_BOLD + "  3" + ANSI_RESET + " ➜ Instructions");
+                System.out.println(ANSI_BOLD + "  4" + ANSI_RESET + " ➜ Exit");
                 System.out.println("\n==================================================");
                 System.out.println("\n↓ Insert your option ↓");
                 opt = tec.nextInt();
