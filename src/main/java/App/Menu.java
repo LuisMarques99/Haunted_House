@@ -205,7 +205,7 @@ public class Menu {
         System.out.println(" House. You start the game with an amount of life");
         System.out.println(" points, however, in some rooms there are ghosts");
         System.out.println(" that can deal damage taking some life points");
-        System.out.println(" from you. The good new is that at a random room");
+        System.out.println(" from you. The good news is that in a random room");
         System.out.println(" there is a shield that can heal you with a random");
         System.out.println(" number of life points from 1 to the highest value");
         System.out.println(" of damage dealt by a ghost.");
