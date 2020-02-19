@@ -180,9 +180,7 @@ public class Menu {
                     System.out.println((i + 1) + "º ⮊ " + players[i] + ": " + scores[i] + " points");
                 }
             }
-
             System.out.println("\n==================================================\n\n");
-
         }
     }
 

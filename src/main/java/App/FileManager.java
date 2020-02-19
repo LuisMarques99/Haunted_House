@@ -66,6 +66,10 @@ public class FileManager {
      */
     private static JSONArray leaderBoard = new JSONArray();
 
+    /**
+     * Method responsible to return the leaderboard array
+     * @return the leaderboard
+     */
     public static JSONArray getLeaderBoard() {
         return leaderBoard;
     }
@@ -121,13 +125,16 @@ public class FileManager {
                 Room division = start.next();
                 Iterator<String> lig = division.getConnections().iterator();
 
-                while (!found && lig.hasNext()) {
+                while (!found || lig.hasNext()) {
                     String ligacao = lig.next();
 
                     if (ligacao.equals("entrada")) {
                         ligacaoEnt.addToRear(division.getName());
                         found = true;
                     }
+                }
+                if(!found){
+                    return jsonFile;
                 }
             }
 
@@ -205,7 +212,13 @@ public class FileManager {
         if (count == 0) {
             System.out.println(ANSI_RED + ">> Impossible to generate shield!" + ANSI_RESET + "\n");
             return false;
-        } else {
+        }
+
+        //If there are no ghosts in the map the shield is generated with zero value. The shield is not relevant!
+        else if(count == vertices.size() - 2){
+            return true;
+        }
+        else {
             //Randomly select a room that contains no ghost
             int max = tempVertices.size();
             Random rand = new Random();
@@ -312,6 +325,12 @@ public class FileManager {
         }
     }
 
+    /**
+     * Method responsible for reading the pre-existing leaderboard file if one exists
+     * @throws IOException
+     * @throws ParseException
+     * @throws FileNotFoundException
+     */
     public static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
         JSONParser parser = new JSONParser();
         leaderBoard.clear();
