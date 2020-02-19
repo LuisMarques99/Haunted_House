@@ -1,0 +1,30 @@
+{
+	"nome": "casa do frankenstein",
+	"pontos": 120,
+	"mapa": [
+		{"aposento": "hall", "fantasma": 0, "ligacoes": ["entrada", "cozinha", "escritorio" , "jardim"]},
+		{"aposento": "cozinha", "fantasma": 15, "ligacoes": ["hall", "sala de jantar" , "cave" , "quarto de hospedes"]},
+		{"aposento": "escritorio", "fantasma": 0, "ligacoes": ["hall", "quarto" , "wc", "sala dos horrores"]},
+		{"aposento": "wc", "fantasma": 0, "ligacoes": ["escritorio" , "sala secreta do doutor terror"]},
+		{"aposento": "sala de jantar", "fantasma": 0, "ligacoes": ["cozinha", "sala de estar" , "sala de arrumos"]},
+		{"aposento": "sala de estar", "fantasma": 15, "ligacoes": ["sala de jantar", "corredor" , "sala de arrumos" , "hall"]},
+		{"aposento": "corredor", "fantasma": 0, "ligacoes": ["sotao", "dispensa" , "exterior", "sala de estar", "quarto" , "sala de arrumos" ,  "cave" , "quarto principal"]},
+		{"aposento": "quarto", "fantasma": 20, "ligacoes": ["escritorio", "corredor" , "quarto de hospedes", "quarto principal"]}
+		{"aposento": "quarto principal", "fantasma": 3, "ligacoes": ["quarto", "corredor"]}
+		{"aposento": "sotao", "fantasma": 100, "ligacoes": ["corredor" , "telhado"]}
+		{"aposento": "cave", "fantasma": 0, "ligacoes": ["cozinha" , "corredor" , "piscina interior" , "sauna"]}
+		{"aposento": "piscina interior", "fantasma": 30, "ligacoes": ["cave" , "sauna"]}
+		{"aposento": "quarto de hospedes", "fantasma": 0, "ligacoes": ["quarto" , "cozinha" , "sauna"]}
+		{"aposento": "sauna", "fantasma": 0, "ligacoes": ["piscina interior" , "cave" , "casa das maquinas"]}
+		{"aposento": "telhado", "fantasma": 120, "ligacoes": ["exterior" , "sotao"]}
+		{"aposento": "dispensa", "fantasma": 0, "ligacoes": ["corredor" , "quarto do frankenstein"]}
+		{"aposento": "sala de arrumos", "fantasma": 20, "ligacoes": ["corredor" , "sala de jantar" , "sala de estar"]}
+		{"aposento": "casa das maquinas", "fantasma": 40, "ligacoes": ["sauna" , "quarto da matanca" , "sala dos horrores"]}
+		{"aposento": "quarto da matanca", "fantasma": 0, "ligacoes": ["casa das maquinas" , "exterior"]}
+		{"aposento": "sala dos horrores", "fantasma": 20, "ligacoes": ["casa das maquinas" , "escritorio"]}
+		{"aposento": "quarto do frankenstein", "fantasma": 200, "ligacoes": ["dispensa"]}
+		{"aposento": "jardim", "fantasma": 50, "ligacoes": ["hall"]}
+		{"aposento": "sala secreta do doutor terror", "fantasma": 0, "ligacoes": ["wc" , "cave" , "camara dos segredos"]}
+		{"aposento": "camara dos segredos", "fantasma": 20, "ligacoes": ["sala secreta do doutor terror" , "exterior"]}
+	]
+} 
