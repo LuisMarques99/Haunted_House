@@ -70,6 +70,11 @@ public class FileManager {
      */
     private static JSONArray leaderBoard = new JSONArray();
 
+    /**
+     * Method responsible to return the leaderboard array
+     *
+     * @return the leaderboard
+     */
     public static JSONArray getLeaderBoard() {
         return leaderBoard;
     }
@@ -118,9 +123,11 @@ public class FileManager {
             ArrayUnorderedList<String> ligacaoEnt = new ArrayUnorderedList<>();
             ArrayUnorderedList<String> ligacaoSai = new ArrayUnorderedList<>();
             boolean found = false;
+            boolean found2 = false;
 
             Iterator<Room> start = vertices.iterator();
 
+            //Check for an entry point
             while (!found && start.hasNext()) {
                 Room division = start.next();
                 Iterator<String> lig = division.getConnections().iterator();
@@ -131,6 +138,22 @@ public class FileManager {
                     if (ligacao.equals("entrada")) {
                         ligacaoEnt.addToRear(division.getName());
                         found = true;
+                    }
+                }
+            }
+
+            Iterator<Room> start2 = vertices.iterator();
+
+            //Check for an exit point
+            while (!found2 && start2.hasNext()) {
+                Room division = start2.next();
+                Iterator<String> lig = division.getConnections().iterator();
+
+                while (!found2 && lig.hasNext()) {
+                    String ligacao = lig.next();
+
+                    if (ligacao.equals("exterior")) {
+                        found2 = true;
                     }
                 }
             }
@@ -170,7 +193,7 @@ public class FileManager {
                 res += tempRoom.getGhost();
             }
 
-            if (jsonFile.getPoints() < res) {
+            if (jsonFile.getPoints() < res || found == false || found2 == false) {
                 throw new InvalidFileException("\n>> This is a invalid map!\n");
             } else {
                 System.out.println(network.toString());
@@ -209,6 +232,11 @@ public class FileManager {
         if (count == 0) {
             System.out.println(ANSI_RED + ">> Impossible to generate shield!" + ANSI_RESET + "\n");
             return false;
+        }
+
+        //If there are no ghosts in the map the shield is generated with zero value. The shield is not relevant!
+        else if (count == vertices.size() - 2) {
+            return true;
         } else {
             //Randomly select a room that contains no ghost
             int max = tempVertices.size();
@@ -234,6 +262,35 @@ public class FileManager {
             }
             return true;
         }
+    }
+
+    /**
+     * Method responsible to return a division given a name as parameter
+     *
+     * @param divisao Division name
+     * @return A division
+     */
+    public static Room searchDivision(String divisao) {
+        ArrayUnorderedList divisoes = vertices;
+        Room div = null;
+        boolean found = false;
+        int count = 0;
+
+        Iterator<Room> iterator = divisoes.iterator();
+
+        while (!found && iterator.hasNext()) {
+            div = iterator.next();
+
+            if ((div.getName()).equals(divisao)) {
+                found = true;
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("Division not found!");
+            div = null;
+        }
+        return div;
     }
 
     /**
@@ -288,6 +345,13 @@ public class FileManager {
         }
     }
 
+    /**
+     * Method responsible for reading the pre-existing leaderboard file if one exists
+     *
+     * @throws IOException
+     * @throws ParseException
+     * @throws FileNotFoundException
+     */
     public static void readExistingLeaderBoard() throws IOException, ParseException, FileNotFoundException {
         JSONParser parser = new JSONParser();
         leaderBoard.clear();
@@ -347,35 +411,7 @@ public class FileManager {
             }
         }
         if (count == 0) {
-            System.out.println("\n\nInvalid division choice...");
-        }
-        return div;
-    }
-
-    /**
-     * Method responsible to return a division given a name as parameter
-     *
-     * @param divisao Division name
-     * @return A division
-     */
-    private static Room searchDivision(String divisao) {
-        ArrayUnorderedList divisoes = vertices;
-        Room div = null;
-        boolean found = false;
-        int count = 0;
-
-        Iterator<Room> iterator = divisoes.iterator();
-
-        while (!found && iterator.hasNext()) {
-            div = iterator.next();
-
-            if ((div.getName()).equals(divisao)) {
-                found = true;
-                count++;
-            }
-        }
-        if (count == 0) {
-            System.out.println("Division not found!");
+            System.out.println(ANSI_RED + "\nInvalid division choice...\n" + ANSI_RESET);
         }
         return div;
     }

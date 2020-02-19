@@ -99,6 +99,10 @@ public class JSONFile {
         this.map = map;
     }
 
+    /**
+     * String representation of jsonFile structure with their values
+     * @return string representation
+     */
     @Override
     public String toString() {
         return "JSONFile\n{\nname = \"" + name + "\"\npoints = " + points + "\nmap = " + map.toString() + "\n}";
