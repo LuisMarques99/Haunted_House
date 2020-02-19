@@ -18,7 +18,7 @@ import java.util.Scanner;
  */
 public class DEMO {
 
-    public static void main(String[] args) throws ParseException, IOException, FileNotFoundException {
+    public static void main(String[] args) throws ParseException, IOException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BOLD = "\u001B[1m";
@@ -35,7 +35,7 @@ public class DEMO {
                 System.out.println("  ➊ ➜ Play game");
                 System.out.println("  ➋ ➜ Leaderboards");
                 System.out.println("  ➌ ➜ Instructions");
-                System.out.println("  ➍ ➜ Exit");
+                System.out.println("  ➍❹ ➜ Exit");
                 System.out.println("\n==================================================");
                 System.out.println("\n↓ Insert your option ↓");
                 opt = tec.nextInt();
