@@ -438,7 +438,7 @@ public class FileManager {
             }
         }
         if (count == 0) {
-            System.out.println("\nInvalid division choice...");
+            System.out.println(ANSI_RED + "\nInvalid division choice...\n" + ANSI_RESET);
         }
         return div;
     }
