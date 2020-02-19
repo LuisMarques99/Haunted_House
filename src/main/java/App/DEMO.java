@@ -35,7 +35,7 @@ public class DEMO {
                 System.out.println("  ➊ ➜ Play game");
                 System.out.println("  ➋ ➜ Leaderboards");
                 System.out.println("  ➌ ➜ Instructions");
-                System.out.println("   ➜ Exit");
+                System.out.println("  ➍ ➜ Exit");
                 System.out.println("\n==================================================");
                 System.out.println("\n↓ Insert your option ↓");
                 opt = tec.nextInt();
