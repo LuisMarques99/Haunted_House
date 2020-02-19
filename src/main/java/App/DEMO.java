@@ -29,9 +29,9 @@ public class DEMO {
             Scanner tec = new Scanner(System.in);
             try {
                 System.out.println("\n========== Menu ==========");
-                System.out.println(" ⓵ - Play game");
-                System.out.println(" ➁ - Leaderboards");
-                System.out.println(" ➂ - Exit");
+                System.out.println(" ➊ ➜ Play game");
+                System.out.println(" ➋ ➜ Leaderboards");
+                System.out.println(" ➌ ➜ Exit");
                 System.out.println("==========================");
                 opt = tec.nextInt();
             } catch (java.util.InputMismatchException e) {
