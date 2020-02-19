@@ -5,7 +5,7 @@ import Entities.JSONFile;
 import Exceptions.FileNotFoundException;
 import Exceptions.InvalidFileException;
 import org.json.simple.parser.ParseException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
