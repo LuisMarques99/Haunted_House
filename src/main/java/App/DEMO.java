@@ -23,7 +23,7 @@ public class DEMO {
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BOLD = "\u001B[1m";
 
-        int opt = 0;
+        String opt = "0";
 
         do {
             System.out.println(ANSI_BOLD + "\n\n\n             ⤷ 👻" + ANSI_RED + " Haunted House " + ANSI_RESET
@@ -32,18 +32,18 @@ public class DEMO {
             Scanner tec = new Scanner(System.in);
             try {
                 System.out.println("\n\n====================== Menu ======================\n");
-                System.out.println(ANSI_BOLD + "  1" + ANSI_RESET + " ➜ Play game");
-                System.out.println(ANSI_BOLD + "  2" + ANSI_RESET + " ➜ Leaderboards");
-                System.out.println(ANSI_BOLD + "  3" + ANSI_RESET + " ➜ Instructions");
-                System.out.println(ANSI_BOLD + "  4" + ANSI_RESET + " ➜ Exit");
+                System.out.println(ANSI_BOLD + "  [1]" + ANSI_RESET + " ➜ Play game");
+                System.out.println(ANSI_BOLD + "  [2]" + ANSI_RESET + " ➜ Leaderboards");
+                System.out.println(ANSI_BOLD + "  [3]" + ANSI_RESET + " ➜ Instructions");
+                System.out.println(ANSI_BOLD + "  [4]" + ANSI_RESET + " ➜ Exit");
                 System.out.println("\n==================================================");
                 System.out.println("\n↓ Insert your option ↓");
-                opt = tec.nextInt();
+                opt = tec.next();
             } catch (java.util.InputMismatchException e) {
             }
 
             switch (opt) {
-                case 1:
+                case "1":
                     try {
                         Menu.userDefinition();
                     } catch (InputMismatchException e) {
@@ -61,7 +61,7 @@ public class DEMO {
                     }
                     Menu.start();
                     break;
-                case 2:
+                case "2":
                     Scanner tec2 = new Scanner(System.in);
                     String res;
                     System.out.println("\nWhat is the map you wish to search?");
@@ -73,15 +73,16 @@ public class DEMO {
                         break;
                     }
                     break;
-                case 3:
+                case "3":
                     Menu.showInstructions();
                     break;
-                case 4:
+                case "4":
                     Menu.copyright();
                     break;
                 default:
                     System.out.println(ANSI_RED + "\nChoose a valid option." + ANSI_RESET);
+                    break;
             }
-        } while (opt != 4);
+        } while (!opt.equals("4"));
     }
 }

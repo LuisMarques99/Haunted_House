@@ -57,9 +57,9 @@ public class Menu {
             try {
                 System.out.println("\n\n=================" + ANSI_GREEN + " User Selection " + ANSI_RESET
                         + "=================\n");
-                System.out.println(ANSI_BOLD + "  1" + ANSI_RESET + " ➜ Enter your username");
-                System.out.println(ANSI_BOLD + "  2" + ANSI_RESET + " ➜ Play as a guest");
-                System.out.println("\n================<==================================");
+                System.out.println(ANSI_BOLD + "  [1]" + ANSI_RESET + " ➜ Enter your username");
+                System.out.println(ANSI_BOLD + "  [2]" + ANSI_RESET + " ➜ Play as a guest");
+                System.out.println("\n==================================================");
                 System.out.println("\n↓ Insert your option ↓");
                 option = scanner.nextInt();
             } catch (InputMismatchException e) {
