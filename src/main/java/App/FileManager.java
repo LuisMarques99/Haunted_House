@@ -13,7 +13,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -74,7 +73,6 @@ public class FileManager {
     public static JSONFile readJsonFile(String filePath) throws IOException, ParseException, FileNotFoundException, InvalidFileException {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_RED = "\u001B[31m";
 
         try {
             network = new Network<>();
@@ -390,7 +388,7 @@ public class FileManager {
                     long up = user.getLifePoints() + res;
                     user.setLifePoints(up);
                     div.setGhost(0);
-                    System.out.println("\n" + ANSI_BLUE + "Apanhou um escudo de proteccao! " + res + " pontos de vida adicionados." + ANSI_RESET + "\n");
+                    System.out.println("\n" + ANSI_BLUE + "You got a protection shield! " + res + " life points added." + ANSI_RESET + "\n");
                 }
             }
         }

@@ -90,6 +90,12 @@ public class Menu {
         jsonFile = FileManager.readJsonFile(filePath);
     }
 
+    /**
+     * Start the game method
+     * @throws IOException
+     * @throws ParseException
+     * @throws FileNotFoundException
+     */
     public static void start() throws IOException, ParseException, FileNotFoundException {
         user.setLifePoints(jsonFile.getPoints());
 
@@ -101,6 +107,9 @@ public class Menu {
         FileManager.playGame(user);
     }
 
+    /**
+     * Final string in the end of the program
+     */
     public static void copyright() {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
@@ -177,6 +186,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Method responsible for extending the leaderboard structure capacity
+     */
     private static void extendLeaderboardCapacity() {
         long[] newScores = new long[scores.length + 10];
         String[] newPlayers = new String[players.length + 10];
@@ -185,7 +197,6 @@ public class Menu {
             newScores[i] = scores[i];
             newPlayers[i] = players[i];
         }
-
         scores = newScores;
         players = newPlayers;
     }

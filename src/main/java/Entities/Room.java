@@ -2,14 +2,13 @@ package Entities;
 
 import MyCollection.List.ArrayUnorderedList;
 
-import java.util.Iterator;
-
 /**
  * <h3>
  * <strong>Class that represents the structure of a {@link Room Room}</strong>
  * </h3>
  *
  * @author Luis Marques
+ * @author Francisco Pinto
  */
 public class Room {
     /**
@@ -50,15 +49,6 @@ public class Room {
     }
 
     /**
-     * Sets the name of the room
-     *
-     * @param name String name of the room
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Gets the ghost of the room
      *
      * @return long points the ghost of the room takes the user
@@ -86,14 +76,9 @@ public class Room {
     }
 
     /**
-     * Sets the connections of the room
-     *
-     * @param connections ArrayUnorderedList connections of the room
+     * Stirng representation of the connections in each room
+     * @return string representation
      */
-    public void setConnections(ArrayUnorderedList<String> connections) {
-        this.connections = connections;
-    }
-
     @Override
     public String toString() {
         return "{ name = \"" + name + "\", ghost = " + ghost + ", connections=" + connections + "}\n";

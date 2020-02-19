@@ -6,6 +6,7 @@ package Entities;
  * </h3>
  *
  * @author Luis Marques
+ * @author Francisco Pinto
  */
 public class User {
 
@@ -18,11 +19,6 @@ public class User {
      * long reference to the life points
      */
     private long lifePoints;
-
-    /**
-     * long reference to the highest score of the user
-     */
-    private long highScore;
 
     /**
      * Creates an instance of a {@link User user}
@@ -63,23 +59,5 @@ public class User {
      */
     public void setLifePoints(long lifePoints) {
         this.lifePoints = lifePoints;
-    }
-
-    /**
-     * Gets the user's highest score
-     *
-     * @return long user's highest score
-     */
-    public long getHighScore() {
-        return highScore;
-    }
-
-    /**
-     * Sets the user's highest score
-     *
-     * @param highScore long user's highest score
-     */
-    public void setHighScore(long highScore) {
-        this.highScore = highScore;
     }
 }
