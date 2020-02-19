@@ -142,6 +142,8 @@ public class Menu {
         FileManager.readExistingLeaderBoard();
         JSONArray leaderBoard = FileManager.getLeaderBoard();
         int count = 0;
+        scores = new long[10];
+        players = new String[10];
 
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_RESET = "\u001B[0m";
