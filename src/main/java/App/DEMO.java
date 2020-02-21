@@ -18,7 +18,7 @@ import java.util.Scanner;
  */
 public class DEMO {
 
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_BOLD = "\u001B[1m";
@@ -58,8 +58,18 @@ public class DEMO {
                     } catch (InvalidFileException e) {
                         System.out.println(ANSI_RED + "\n>> This map is invalid!" + ANSI_RESET);
                         break;
+                    } catch (ParseException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+                    } catch (IOException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
                     }
-                    Menu.start();
+                    try {
+                        Menu.start();
+                    } catch (IOException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+                    } catch (ParseException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+                    }
                     break;
                 case "2":
                     Scanner tec2 = new Scanner(System.in);
@@ -71,6 +81,10 @@ public class DEMO {
                     } catch (FileNotFoundException e) {
                         System.out.println(ANSI_RED + "\nFile not found" + ANSI_RESET);
                         break;
+                    } catch (ParseException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+                    } catch (IOException e) {
+                        System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
                     }
                     break;
                 case "3":
